@@ -117,44 +117,36 @@ section,
 }
 
 /* ================================
-   Header
+   Header (FIXED & CLEAN)
 ================================== */
 
 .header {
   position: sticky;
   top: 0;
   z-index: 20;
-  display: flex;
+
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  justify-content: space-between;
-  padding: 14px 20px;
-  background-color: rgba(246, 243, 240, 0.9);
+
+  padding: 14px 24px;
+  background-color: rgba(246, 243, 240, 0.92);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(0, 0, 0, 0.04);
 }
 
+/* LEFT NAV */
 .header-left {
   display: flex;
-  flex-wrap: nowrap;
-  gap: 10px;
+  gap: 14px;
   font-size: 10px;
   letter-spacing: 0.14em;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
-.header-left::-webkit-scrollbar {
-  height: 3px;
-}
-.header-left::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.15);
-  border-radius: 999px;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .header-left a {
-  text-transform: uppercase;
   position: relative;
-  white-space: nowrap;
 }
 
 .header-left a::after {
@@ -165,15 +157,16 @@ section,
   width: 0;
   height: 1px;
   background-color: var(--color-primary);
-  transition: width 0.32s ease-out;
+  transition: width 0.3s ease;
 }
 
 .header-left a:hover::after {
   width: 100%;
 }
 
+/* CENTER LOGO */
 .header-center {
-  flex: 0 0 auto;
+  justify-self: center;
 }
 
 .header-logo {
@@ -183,33 +176,50 @@ section,
   text-transform: uppercase;
 }
 
+/* RIGHT LANG (DESKTOP ONLY) */
 .header-right {
+  justify-self: end;
   display: flex;
   gap: 6px;
 }
 
 .lang-btn {
-  width: 24px;
-  height: 24px;
+  padding: 6px 10px;
+  font-size: 9px;
   border-radius: 999px;
   border: 1px solid var(--color-primary);
-  background-color: #ffffff;
-  font-size: 9px;
-  cursor: pointer;
+  background: #fff;
   color: var(--color-primary);
-  transition: background-color 0.35s ease-out,
-    color 0.35s ease-out,
-    transform 0.28s ease-out;
+  cursor: pointer;
 }
 
-.lang-btn:hover {
-  transform: translateY(-1px);
+/* ================================
+   Responsive Header
+================================== */
+
+/* 태블릿 이하에서는 언어 버튼 제거 */
+@media (max-width: 768px) {
+  .header {
+    grid-template-columns: auto 1fr;
+  }
+
+  .header-center {
+    justify-self: end;
+  }
+
+  .header-right {
+    display: none;
+  }
 }
 
-.lang-btn--active {
-  background-color: var(--color-primary);
-  color: #ffffff;
+/* 모바일에서는 메뉴 간격 축소 */
+@media (max-width: 520px) {
+  .header-left {
+    gap: 10px;
+    font-size: 9px;
+  }
 }
+
 
 /* ================================
    HERO – 레이아웃 (Pro 400H)

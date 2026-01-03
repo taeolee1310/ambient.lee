@@ -485,6 +485,13 @@ section,
   gap: 16px;
 }
 
+/* ✅ 카드 전체를 링크로 감쌀 때 스타일 깨짐 방지 */
+.work-card-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
 .work-card {
   background-color: #fdfaf7;
   border-radius: var(--radius-card);
@@ -502,11 +509,21 @@ section,
   box-shadow: 0 12px 22px rgba(0, 0, 0, 0.18);
 }
 
+/* ✅ 썸네일은 aspect-ratio로 고정 (padding-bottom 방식 제거) */
 .work-thumb {
   position: relative;
   width: 100%;
-  padding-bottom: 70%;
+  aspect-ratio: 4 / 3; /* 원하시면 16/9로 바꿔도 됨 */
   border-radius: var(--radius-card) var(--radius-card) 0 0;
+  overflow: hidden;
+}
+
+/* ✅ WORKS – Agoda Redesign Cover (이미지 경로만 맞추면 됨) */
+.work-thumb--agoda {
+  background-image: url("assets/images/cover-agoda.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .work-content {
@@ -1243,6 +1260,7 @@ body.theme-transition * {
   mix-blend-mode: overlay;
   opacity: 0.4;
 }
+
 /* ================================
    HERO TYPO – +15% 정도 확대
 ================================== */
@@ -1266,36 +1284,3 @@ body.theme-transition * {
     font-size: 28px;  /* 기존 24px → 약 +15% */
   }
 }
-/* WORKS 카드 전체를 링크로 쓸 때 필수 */
-.work-card-link {
-  display: block;
-  text-decoration: none;
-  color: inherit;
-}
-/* WORKS – Agoda Redesign Cover */
-.work-thumb--agoda {
-  background-image: url("assets/images/cover-agoda.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-.work-thumb {
-  width: 100%;
-  aspect-ratio: 4 / 3; /* 또는 16 / 9 */
-  border-radius: 12px; /* 기존 톤에 맞게 조절 */
-  overflow: hidden;
-}
-.work-card-link {
-  display: block;
-  text-decoration: none;
-  color: inherit;
-}
-
-.work-thumb--agoda {
-  background-image: url("assets/images/cover-agoda.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-

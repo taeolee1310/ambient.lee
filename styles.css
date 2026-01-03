@@ -1266,3 +1266,10 @@ body.theme-transition * {
     font-size: 28px;  /* 기존 24px → 약 +15% */
   }
 }
+/* WORKS 카드 전체를 링크로 쓸 때 필수 */
+.work-card-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+

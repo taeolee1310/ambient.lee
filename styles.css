@@ -1285,5 +1285,17 @@ body.theme-transition * {
   border-radius: 12px; /* 기존 톤에 맞게 조절 */
   overflow: hidden;
 }
+.work-card-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.work-thumb--agoda {
+  background-image: url("assets/images/cover-agoda.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
 
 

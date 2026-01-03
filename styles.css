@@ -1272,4 +1272,18 @@ body.theme-transition * {
   text-decoration: none;
   color: inherit;
 }
+/* WORKS – Agoda Redesign Cover */
+.work-thumb--agoda {
+  background-image: url("assets/images/cover-agoda.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.work-thumb {
+  width: 100%;
+  aspect-ratio: 4 / 3; /* 또는 16 / 9 */
+  border-radius: 12px; /* 기존 톤에 맞게 조절 */
+  overflow: hidden;
+}
+
 

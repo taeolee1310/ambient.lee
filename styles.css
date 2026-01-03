@@ -530,7 +530,7 @@ section,
 
 /* ✅ WORKS – Agoda Redesign Cover (이미지 경로만 맞추면 됨) */
 .work-thumb--agoda {
-  background-image: url("assets/images/cover-agoda.jpg");
+  background-image: url("assets/images/cover-agoda.jpeg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

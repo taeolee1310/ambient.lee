@@ -1364,10 +1364,14 @@ body.theme-transition * {
     font-size: 28px;  /* 기존 24px → 약 +15% */
   }
 }
-/* AIiNG 프로젝트 이미지 넣기 */
+/* ✅ AIiNG Project Cover Image */
 .work-thumb--aiing {
-  /* 괄호 안에 이미지 파일 경로를 넣으세요 */
-  background-image: url("./images/my-aiing-image.jpg"); 
+  /* 여기에 이미지 파일 경로를 넣으세요. 예: ./assets/images/aiing.jpg */
+  background-image: url("./assets/images/aiing-cover.jpg"); 
   background-size: cover;
   background-position: center;
+  background-repeat: no-repeat;
+  
+  /* 만약 이미지가 없을 때를 대비해 기본 배경색을 지정하고 싶다면 아래 주석 해제 */
+  /* background-color: #214769; */
 }

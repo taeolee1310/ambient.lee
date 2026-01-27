@@ -1,38 +1,10 @@
 // main.js
 (function () {
-  // ============================================================
-  //  [설정] 다국어 번역 데이터
-  // ============================================================
-  const translations = {
-    ko: {
-      "hero-main": `I design <span class="hero-italic">ambient</span><br>& clear digital products.`,
-      "hero-sub": "Product & UI/UX Designer – Ambient.lee",
-      "about-sub": `사용자의 맥락을 깊게 이해하고, 무드를 잃지 않는 정교한 화면을 만드는<br>Product · UI/UX Designer Ambient.lee 입니다.`,
-      "about-desc": `사용자 리서치와 데이터 기반 접근을 통해 문제를 정의하고,<br>인터랙션과 무드를 결합한 경험을 설계합니다.<br>‘오래 머물고 싶은 화면’을 만드는 것이 목표입니다.`,
-      "menu-about": "ABOUT",
-      "menu-work": "WORKS",
-      "menu-process": "PROCESS",
-      "menu-log": "LOG",
-      "menu-contact": "CONTACT"
-    },
-    en: {
-      "hero-main": `I design <span class="hero-italic">ambient</span><br>& clear digital products.`,
-      "hero-sub": "Product & UI/UX Designer – Ambient.lee",
-      "about-sub": `I am Ambient.lee, a Product & UI/UX Designer<br>who deeply understands context and crafts delicate interfaces.`,
-      "about-desc": `I define problems through user research and data-driven approaches,<br>designing experiences that combine interaction and mood.<br>My goal is to create screens where users want to stay.`,
-      "menu-about": "ABOUT",
-      "menu-work": "WORKS",
-      "menu-process": "PROCESS",
-      "menu-log": "LOG",
-      "menu-contact": "CONTACT"
-    }
-  };
-
   // ================================
   // 1. 부드러운 스크롤 내비게이션
   // ================================
   function initSmoothScroll() {
-    const navLinks = document.querySelectorAll("nav a, .header-left a"); // nav 태그 지원 추가
+    const navLinks = document.querySelectorAll(".header-left a");
 
     function onNavClick(e) {
       const href = this.getAttribute("href");
@@ -66,7 +38,8 @@
     let ticking = false;
 
     function handleScroll() {
-      const y = window.pageYOffset || document.documentElement.scrollTop || 0;
+      const y =
+        window.pageYOffset || document.documentElement.scrollTop || 0;
 
       if (header) {
         if (y > 24) header.classList.add("header--scrolled");
@@ -132,82 +105,370 @@
   }
 
   // ================================
-  // 4. [통합] 언어 변경 시스템 (기능+스타일)
+  // 4. 언어 버튼 토글
   // ================================
-  function initLanguageSystem() {
+  function initLangToggle() {
     const langButtons = document.querySelectorAll(".lang-btn");
-    
-    // 언어 변경 실행 함수
-    function setLanguage(lang) {
-      // 1. HTML lang 속성 변경
-      document.documentElement.lang = lang;
+    if (!langButtons.length) return;
 
-      // 2. 텍스트 교체 (data-lang 속성 찾기)
-      const elements = document.querySelectorAll('[data-lang]');
-      elements.forEach(el => {
-        const key = el.getAttribute('data-lang');
-        if (translations[lang] && translations[lang][key]) {
-          el.innerHTML = translations[lang][key];
-        }
-      });
-
-      // 3. 버튼 스타일 업데이트
-      updateButtons(lang);
-    }
-
-    // 버튼 스타일 제어 함수
-    function updateButtons(activeLang) {
-      langButtons.forEach(btn => {
-        const btnText = btn.textContent.trim().toLowerCase(); // kr 또는 en
-        if (btnText === activeLang) {
-          btn.style.opacity = '1';
-          btn.style.fontWeight = 'bold';
-        } else {
-          btn.style.opacity = '0.4';
-          btn.style.fontWeight = 'normal';
-        }
-      });
-    }
-
-    // 버튼에 클릭 이벤트 연결
-    langButtons.forEach(btn => {
+    langButtons.forEach((btn) =>
       btn.addEventListener("click", function () {
-        // 버튼 텍스트(KR/EN)를 읽어서 언어 코드로 변환
-        const langCode = this.textContent.trim().toLowerCase() === 'kr' ? 'ko' : 'en';
-        setLanguage(langCode);
-      });
-    });
+        langButtons.forEach((b) => b.classList.remove("lang-btn--active"));
+        this.classList.add("lang-btn--active");
+      })
+    );
 
-    // 초기 실행 (기본 한국어)
-    setLanguage('ko');
+    langButtons[0].classList.add("lang-btn--active");
   }
 
   // ================================
-  // 5. Light / Dark 스위치
+  // 5. Light / Dark 스위치 (.theme-switch)
   // ================================
   function initThemeToggle() {
     const body = document.body;
 
-    // 이미 존재하는지 체크 후 생성
-    let toggle = document.querySelector(".theme-switch");
-    if (!toggle) {
-        toggle = document.createElement("button");
-        toggle.type = "button";
-        toggle.className = "theme-switch";
-        toggle.innerHTML = `
-        <span class="switch-label switch-label--light">Light</span>
-        <div class="switch-track">
-            <div class="switch-knob"></div>
-            <span class="switch-dot switch-dot--1"></span>
-            <span class="switch-dot switch-dot--2"></span>
-        </div>
-        <span class="switch-label switch-label--dark">Dark</span>
-        `;
-        body.appendChild(toggle);
-    }
+    const toggle = document.createElement("button");
+    toggle.type = "button";
+    toggle.className = "theme-switch";
+    toggle.innerHTML = `
+      <span class="switch-label switch-label--light">Light</span>
+      <div class="switch-track">
+        <div class="switch-knob"></div>
+        <span class="switch-dot switch-dot--1"></span>
+        <span class="switch-dot switch-dot--2"></span>
+      </div>
+      <span class="switch-label switch-label--dark">Dark</span>
+    `;
+    body.appendChild(toggle);
 
     let isDark = false;
 
     function applyTheme() {
       body.classList.add("theme-transition");
-      setTimeout(() => body.classList.remove("theme-transition"), 35
+      setTimeout(() => body.classList.remove("theme-transition"), 350);
+
+      if (isDark) {
+        body.classList.add("theme-dark");
+        toggle.classList.add("is-dark");
+      } else {
+        body.classList.remove("theme-dark");
+        toggle.classList.remove("is-dark");
+      }
+    }
+
+    toggle.addEventListener("click", () => {
+      isDark = !isDark;
+      applyTheme();
+    });
+
+    applyTheme();
+  }
+
+  /* ============================================================
+     6. Dual Layer Film Grain – static + scroll (배경용)
+     색상: 메인 #FC9877, 서브 #003049
+  ============================================================ */
+  function initAmbientGrain() {
+    const staticCanvas = document.getElementById("grain-static");
+    const scrollCanvas = document.getElementById("grain-scroll");
+    if (!staticCanvas || !scrollCanvas) return;
+
+    const sctx = staticCanvas.getContext("2d");
+    const ctx = scrollCanvas.getContext("2d");
+
+    let w, h, grainTexture;
+
+    function resize() {
+      w = staticCanvas.width = scrollCanvas.width = window.innerWidth;
+      h = staticCanvas.height = scrollCanvas.height = window.innerHeight;
+      generateGrain();
+      drawStaticGrain();
+    }
+
+    function generateGrain() {
+      const temp = document.createElement("canvas");
+      const tctx = temp.getContext("2d");
+
+      temp.width = w;
+      temp.height = h;
+
+      const imgData = tctx.createImageData(w, h);
+      const buffer = imgData.data;
+
+      const mainR = 252,
+        mainG = 152,
+        mainB = 119; // #FC9877
+      const subR = 0,
+        subG = 48,
+        subB = 73; // #003049
+
+      for (let i = 0; i < buffer.length; i += 4) {
+        const t = Math.random();
+
+        const r = mainR * t + subR * (1 - t);
+        const g = mainG * t + subG * (1 - t);
+        const b = mainB * t + subB * (1 - t);
+
+        buffer[i] = r;
+        buffer[i + 1] = g;
+        buffer[i + 2] = b;
+        buffer[i + 3] = 130;
+      }
+
+      tctx.putImageData(imgData, 0, 0);
+      grainTexture = temp;
+    }
+
+    function drawStaticGrain() {
+      sctx.clearRect(0, 0, w, h);
+      sctx.drawImage(grainTexture, 0, 0);
+    }
+
+    resize();
+    window.addEventListener("resize", resize);
+
+    let targetOffset = 0;
+    let currentOffset = 0;
+
+    window.addEventListener("scroll", () => {
+      const y = window.scrollY || window.pageYOffset || 0;
+      targetOffset = y * 0.7;
+    });
+
+    function render() {
+      currentOffset += (targetOffset - currentOffset) * 0.06;
+
+      ctx.clearRect(0, 0, w, h);
+
+      const offsetY = currentOffset % h;
+      ctx.drawImage(grainTexture, 0, offsetY);
+      ctx.drawImage(grainTexture, 0, offsetY - h);
+
+      requestAnimationFrame(render);
+    }
+
+    render();
+  }
+
+  /* ============================================================
+     7. HERO – Liquid Blob + Pro 400H Grain + 마우스 반발 튕김
+     - 히어로 전체를 운동장으로 사용
+     - 마우스가 공에 "닿으면" 반대 방향으로 튕겨나감 (자석 X)
+  ============================================================ */
+  function initHeroBlobAndGrain() {
+    const hero = document.querySelector(".hero");
+    const blobCanvas = document.getElementById("hero-blob");
+    const grainCanvas = document.getElementById("hero-grain");
+    if (!hero || !blobCanvas || !grainCanvas) return;
+
+    const bctx = blobCanvas.getContext("2d");
+    const gctx = grainCanvas.getContext("2d");
+    if (!bctx || !gctx) return;
+
+    let w, h, r;
+    let ballX, ballY, vx, vy;
+
+    let mouseX = 0;
+    let mouseY = 0;
+    let mouseInside = false;
+
+    const FRICTION = 0.985;
+    const BOUNCE = 0.9;
+    const MIN_SPEED = 0.15;
+    const IDLE_JITTER = 0.04;
+
+    let grainTexture = null;
+
+    function resize() {
+      const rect = hero.getBoundingClientRect();
+      w = blobCanvas.width = grainCanvas.width = rect.width || window.innerWidth;
+      h = blobCanvas.height = grainCanvas.height = rect.height || 400;
+
+      r = Math.min(w, h) * 0.12;
+
+      if (typeof ballX !== "number" || typeof ballY !== "number") {
+        ballX = w * 0.5;
+        ballY = h * 0.5;
+        vx = 1.8;
+        vy = -1.4;
+      } else {
+        ballX = Math.min(Math.max(ballX, r), w - r);
+        ballY = Math.min(Math.max(ballY, r), h - r);
+      }
+
+      generateHeroGrain();
+    }
+
+    // 마우스 위치 (hero 기준)
+    hero.addEventListener("mousemove", (e) => {
+      const rect = hero.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      if (x < 0 || y < 0 || x > rect.width || y > rect.height) {
+        mouseInside = false;
+        return;
+      }
+
+      mouseInside = true;
+      mouseX = x;
+      mouseY = y;
+    });
+
+    hero.addEventListener("mouseleave", () => {
+      mouseInside = false;
+    });
+
+    function updateBall() {
+      if (!w || !h || !r) return;
+
+      // 마우스에 "닿으면" 반대 방향으로 튕겨 나가게 하는 반발력
+      if (mouseInside) {
+        const dx = ballX - mouseX;
+        const dy = ballY - mouseY;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        const collideRadius = r * 1.05;
+
+        if (dist > 0 && dist < collideRadius) {
+          const ux = dx / dist;
+          const uy = dy / dist;
+
+          const hitForce = 2.8; // 너무 튀면 2.0~2.5로 줄이면 됨
+          vx += ux * hitForce;
+          vy += uy * hitForce;
+
+          const pushOut = collideRadius - dist;
+          ballX += ux * pushOut;
+          ballY += uy * pushOut;
+        }
+      }
+
+      vx *= FRICTION;
+      vy *= FRICTION;
+
+      ballX += vx;
+      ballY += vy;
+
+      const minX = r * 0.7;
+      const maxX = w - r * 0.7;
+      const minY = r * 0.7;
+      const maxY = h - r * 0.7;
+
+      if (ballX < minX) {
+        ballX = minX;
+        vx = Math.abs(vx) * BOUNCE;
+      } else if (ballX > maxX) {
+        ballX = maxX;
+        vx = -Math.abs(vx) * BOUNCE;
+      }
+
+      if (ballY < minY) {
+        ballY = minY;
+        vy = Math.abs(vy) * BOUNCE;
+      } else if (ballY > maxY) {
+        ballY = maxY;
+        vy = -Math.abs(vy) * BOUNCE;
+      }
+
+      const speed = Math.sqrt(vx * vx + vy * vy);
+      if (!mouseInside && speed < MIN_SPEED) {
+        const angle = Math.random() * Math.PI * 2;
+        vx += Math.cos(angle) * IDLE_JITTER;
+        vy += Math.sin(angle) * IDLE_JITTER;
+      }
+    }
+
+    function drawBlob() {
+      if (!w || !h || !r) return;
+
+      bctx.clearRect(0, 0, w, h);
+
+      const speed = Math.sqrt(vx * vx + vy * vy);
+      const squish = Math.min(speed * 0.02, 0.35);
+
+      const rx = r * (1 + squish);
+      const ry = r * (1 - squish);
+
+      const grad = bctx.createRadialGradient(
+        ballX,
+        ballY,
+        r * 0.3,
+        ballX,
+        ballY,
+        r
+      );
+      grad.addColorStop(0, "#FC9877");
+      grad.addColorStop(1, "#003049");
+
+      bctx.save();
+      bctx.translate(ballX, ballY);
+      bctx.beginPath();
+      bctx.ellipse(0, 0, rx, ry, 0, 0, Math.PI * 2);
+      bctx.fillStyle = grad;
+      bctx.fill();
+      bctx.restore();
+    }
+
+    // Pro 400H 느낌의 Hero 전용 컬러 그레인
+    function generateHeroGrain() {
+      const scale = 0.45; // 해상도 일부러 낮춰서 입자를 크게
+      const gw = Math.max(1, Math.floor(w * scale));
+      const gh = Math.max(1, Math.floor(h * scale));
+
+      const temp = document.createElement("canvas");
+      temp.width = gw;
+      temp.height = gh;
+
+      const tctx = temp.getContext("2d");
+      const img = tctx.createImageData(gw, gh);
+      const buf = img.data;
+
+      for (let i = 0; i < buf.length; i += 4) {
+        const n = Math.random();
+
+        // Pro 400H 계열 – 약간 차갑고 중립적인 톤
+        const rCh = 240 + n * 18;
+        const gCh = 238 + n * 20;
+        const bCh = 242 + n * 22;
+
+        buf[i] = rCh;
+        buf[i + 1] = gCh;
+        buf[i + 2] = bCh;
+        buf[i + 3] = 55; // 낮은 알파 → 공기감만
+      }
+
+      tctx.putImageData(img, 0, 0);
+      grainTexture = temp;
+    }
+
+    function drawGrain() {
+      if (!grainTexture) return;
+      gctx.clearRect(0, 0, w, h);
+      gctx.imageSmoothingEnabled = true;
+      gctx.drawImage(grainTexture, 0, 0, w, h);
+    }
+
+    function render() {
+      updateBall();
+      drawBlob();
+      drawGrain();
+      requestAnimationFrame(render);
+    }
+
+    resize();
+    window.addEventListener("resize", resize);
+    render();
+  }
+
+  // ================================
+  // INITIALIZE
+  // ================================
+  document.addEventListener("DOMContentLoaded", () => {
+    initSmoothScroll();
+    initScrollEffects();
+    initFadeInUp();
+    initLangToggle();
+    initThemeToggle();
+    initAmbientGrain();
+    initHeroBlobAndGrain();
+  });

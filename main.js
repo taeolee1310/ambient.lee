@@ -110,7 +110,6 @@
     const buttons = document.querySelectorAll(".lang-btn");
 
     function setLanguage(lang) {
-      // 1. HTML 언어 설정 및 텍스트 변경
       document.documentElement.lang = lang;
       
       const elements = document.querySelectorAll('[data-lang]');
@@ -121,22 +120,16 @@
         }
       });
 
-      // 2. 버튼 상태 업데이트 및 글라이더 이동
       buttons.forEach(btn => {
-        const val = btn.getAttribute("data-val"); // 'ko' or 'en'
+        const val = btn.getAttribute("data-val"); 
         
         if (val === lang) {
             btn.classList.add("active");
-            
-            // 글라이더 이동 로직: 버튼의 너비만큼 이동
-            // 첫 번째 버튼(KR)이면 0, 두 번째(EN)면 100% 이동
             if (val === 'ko') {
                 glider.style.transform = "translateX(0)";
             } else {
-                // 버튼 사이의 간격이나 패딩 고려하여 100% 이동
                 glider.style.transform = "translateX(100%)";
             }
-            
         } else {
             btn.classList.remove("active");
         }
@@ -150,7 +143,6 @@
       });
     });
 
-    // 초기 실행
     setLanguage('ko');
   }
 
@@ -193,7 +185,7 @@
   }
 
   /* ============================================================
-     6. [배경] Ambient Grain (CSS의 Fixed Canvas 사용)
+     6. [배경] Ambient Grain
      ============================================================ */
   function initAmbientGrain() {
     const staticCanvas = document.getElementById("grain-static");
@@ -222,18 +214,16 @@
       const imgData = tctx.createImageData(w, h);
       const buffer = imgData.data;
 
-      // CSS 테마에 맞춘 그레인 노이즈 색상 (약간의 Teal/Red 섞임)
       const mainR = 51, mainG = 140, mainB = 135; // Teal
       const subR = 140, subG = 50, subB = 56;   // Brick Red
 
       for (let i = 0; i < buffer.length; i += 4) {
-        // 무작위로 Teal 또는 Red 계열 노이즈 생성
         if (Math.random() > 0.5) {
              buffer[i] = mainR; buffer[i+1] = mainG; buffer[i+2] = mainB;
         } else {
              buffer[i] = subR; buffer[i+1] = subG; buffer[i+2] = subB;
         }
-        buffer[i + 3] = 30; // 투명도 (너무 진하면 안됨)
+        buffer[i + 3] = 30; 
       }
       tctx.putImageData(imgData, 0, 0);
       grainTexture = temp;
@@ -245,11 +235,9 @@
       sctx.drawImage(grainTexture, 0, 0);
     }
 
-    // 초기 실행
     resize();
     window.addEventListener("resize", resize);
 
-    // 스크롤 시 약간 움직이는 효과
     let targetOffset = 0;
     let currentOffset = 0;
     window.addEventListener("scroll", () => {
@@ -259,7 +247,7 @@
     function render() {
       currentOffset += (targetOffset - currentOffset) * 0.1;
       ctx.clearRect(0, 0, w, h);
-      const offsetY = - (currentOffset % h); // 위로 흘러가게
+      const offsetY = - (currentOffset % h);
       
       if (grainTexture) {
           ctx.drawImage(grainTexture, 0, offsetY);
@@ -271,7 +259,7 @@
   }
 
   /* ============================================================
-     7. [HERO] Liquid Blob (원래 오렌지/남색 색상으로 복구)
+     7. [HERO] Liquid Blob (색상 변경: #214769)
      ============================================================ */
   function initHeroBlobAndGrain() {
     const hero = document.querySelector(".hero");
@@ -352,10 +340,10 @@
       if (!w || !h) return;
       bctx.clearRect(0, 0, w, h);
 
-      // ✅ [수정됨] 원래의 오렌지/남색 그라데이션으로 복구
+      // ✅ [수정됨] 사용자가 요청한 #214769 적용
       const grad = bctx.createRadialGradient(ballX, ballY, r * 0.3, ballX, ballY, r);
-      grad.addColorStop(0, "#FC9877"); // 오렌지 중심
-      grad.addColorStop(1, "#003049"); // 남색 외곽
+      grad.addColorStop(0, "#214769"); // 요청 색상 (Dark Blue)
+      grad.addColorStop(1, "#0d2335"); // 더 깊은 그림자 (자연스러운 입체감)
 
       bctx.beginPath();
       bctx.arc(ballX, ballY, r, 0, Math.PI * 2);
@@ -407,7 +395,7 @@
     initFadeInUp();
     initLanguageSystem();
     initThemeToggle();
-    initAmbientGrain();      // 배경 그레인 실행
-    initHeroBlobAndGrain();  // 히어로 원 실행 (원래 색상)
+    initAmbientGrain();      
+    initHeroBlobAndGrain();  
   });
 })();

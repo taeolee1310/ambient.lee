@@ -4,44 +4,42 @@
   <meta charset="UTF-8" />
   <title>Ambient.lee – Portfolio</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Product & UI/UX Designer Ambient.lee Portfolio">
 
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Gothic+A1&family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
 
-  <!-- Styles -->
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body class="noto-sans-kr-body">
 
-  <!-- ✅ 전 화면용 필름 그레인 캔버스 (배경) -->
   <canvas id="grain-static"></canvas>
   <canvas id="grain-scroll"></canvas>
 
   <div class="page">
 
-  <header class="header">
-  <div class="header-left">
-    <a href="#about">ABOUT</a>
-    <a href="#work">WORKS</a>
-    <a href="#process">PROCESS</a>
-    <a href="#log">LOG</a>
-    <a href="#contact">CONTACT</a>
-  </div>
+    <header class="header">
+      <div class="header-left">
+        <nav>
+          <a href="#about">ABOUT</a>
+          <a href="#work">WORKS</a>
+          <a href="#process">PROCESS</a>
+          <a href="#log">LOG</a>
+          <a href="#contact">CONTACT</a>
+        </nav>
+      </div>
 
-  <div class="header-center">
-    <div class="header-logo">Ambient.lee</div>
-  </div>
+      <div class="header-center">
+        <div class="header-logo">Ambient.lee</div>
+      </div>
 
-  <!-- 데스크톱 전용 (모바일에서는 숨김) -->
-  <div class="header-right">
-    <button class="lang-btn">KR</button>
-    <button class="lang-btn">EN</button>
-  </div>
-</header>
+      <div class="header-right">
+        <button class="lang-btn" aria-label="Switch to Korean">KR</button>
+        <button class="lang-btn" aria-label="Switch to English">EN</button>
+      </div>
+    </header>
 
-    <!-- HERO -->
     <section id="about" class="hero">
       <div class="hero-inner">
 
@@ -55,7 +53,6 @@
           </p>
         </div>
 
-        <!-- 전체 hero 오버레이 -->
         <div class="hero-art-wrap">
           <canvas id="hero-blob"></canvas>
           <canvas id="hero-grain"></canvas>
@@ -64,7 +61,6 @@
       </div>
     </section>
 
-    <!-- ABOUT SECTION -->
     <section class="we-artist">
       <div class="we-artist-inner">
         <div class="we-artist-mark">＊</div>
@@ -97,7 +93,6 @@
       </div>
     </section>
 
-    <!-- WORKS -->
     <section id="work" class="section section--work">
       <div class="section-header">
         <h2 class="section-title">WORKS</h2>
@@ -105,11 +100,7 @@
 
       <div class="work-grid">
 
-        <!-- ✅ Behance Link Card (Agoda Redesign) -->
-        <a href="https://www.behance.net/gallery/241453343/agoda-redesign"
-           target="_blank"
-           rel="noopener"
-           class="work-card-link">
+        <a href="https://www.behance.net/gallery/241453343/agoda-redesign" target="_blank" rel="noopener" class="work-card-link">
           <article class="work-card">
             <div class="work-thumb work-thumb--agoda"></div>
             <div class="work-content">
@@ -123,50 +114,55 @@
           </article>
         </a>
 
-        <article class="work-card">
-          <div class="work-thumb ambient-dot"></div>
-          <div class="work-content">
-            <div class="work-tag">PRODUCT DESIGN</div>
-            <div class="work-title">더미 프로젝트 제목 01</div>
-            <div class="work-meta">
-              UX Research · IA · UI System<br>
-              더미 텍스트 – 프로젝트 설명
+        <a href="#" class="work-card-link" onclick="return false;">
+          <article class="work-card">
+            <div class="work-thumb ambient-dot"></div>
+            <div class="work-content">
+              <div class="work-tag">PRODUCT DESIGN</div>
+              <div class="work-title">더미 프로젝트 제목 01</div>
+              <div class="work-meta">
+                UX Research · IA · UI System<br>
+                더미 텍스트 – 프로젝트 설명
+              </div>
             </div>
-          </div>
-        </article>
+          </article>
+        </a>
 
-        <article class="work-card">
-          <div class="work-thumb ambient-dot"></div>
-          <div class="work-content">
-            <div class="work-tag">INTERACTION DESIGN</div>
-            <div class="work-title">더미 프로젝트 제목 03</div>
-            <div class="work-meta">
-              Motion / Prototype<br>
-              더미 텍스트 – 프로젝트 설명
+        <a href="#" class="work-card-link" onclick="return false;">
+          <article class="work-card">
+            <div class="work-thumb ambient-dot"></div>
+            <div class="work-content">
+              <div class="work-tag">INTERACTION DESIGN</div>
+              <div class="work-title">더미 프로젝트 제목 03</div>
+              <div class="work-meta">
+                Motion / Prototype<br>
+                더미 텍스트 – 프로젝트 설명
+              </div>
             </div>
-          </div>
-        </article>
+          </article>
+        </a>
 
-        <article class="work-card">
-          <div class="work-thumb ambient-dot"></div>
-          <div class="work-content">
-            <div class="work-tag">APP PROJECT</div>
-            <div class="work-title">더미 프로젝트 제목 04</div>
-            <div class="work-meta">
-              User Flow · UI<br>
-              더미 텍스트 – 프로젝트 설명
+        <a href="#" class="work-card-link" onclick="return false;">
+          <article class="work-card">
+            <div class="work-thumb ambient-dot"></div>
+            <div class="work-content">
+              <div class="work-tag">APP PROJECT</div>
+              <div class="work-title">더미 프로젝트 제목 04</div>
+              <div class="work-meta">
+                User Flow · UI<br>
+                더미 텍스트 – 프로젝트 설명
+              </div>
             </div>
-          </div>
-        </article>
+          </article>
+        </a>
 
       </div>
 
       <div class="work-more">
-        <button class="ghost-button">+ MORE VIEW</button>
+        <button class="ghost-button" type="button">+ MORE VIEW</button>
       </div>
     </section>
 
-    <!-- PROCESS -->
     <section id="process" class="section section--artist">
       <div class="section-header">
         <h2 class="section-title">PROCESS</h2>
@@ -199,7 +195,6 @@
       </div>
     </section>
 
-    <!-- LOG -->
     <section id="log" class="section section--news">
       <div class="section-header">
         <h2 class="section-title">LOG</h2>
@@ -221,11 +216,10 @@
       </ul>
 
       <div class="news-more">
-        <button class="ghost-button">+ MORE VIEW</button>
+        <button class="ghost-button" type="button">+ MORE VIEW</button>
       </div>
     </section>
 
-    <!-- CONTACT -->
     <section id="contact" class="section section--contact">
       <div class="section-header">
         <h2 class="section-title">CONTACT</h2>
@@ -233,11 +227,12 @@
       <p class="contact-text">
         프로덕트 디자인, UX 리서치, 인터랙션 시안 등<br>
         프로젝트 단위 협업·채용 문의는 아래로 연락 주세요.<br><br>
-        <strong>ambient.lee.design@gmail.com</strong>
+        <a href="mailto:ambient.lee.design@gmail.com" class="contact-email">
+          <strong>ambient.lee.design@gmail.com</strong>
+        </a>
       </p>
     </section>
 
-    <!-- FOOTER -->
     <footer class="footer">
       <div class="footer-band">
         <span>Ambient.lee</span>
@@ -248,15 +243,13 @@
       <div class="footer-logo">Ambient.lee</div>
       <div class="footer-info">
         서울 · Product / UI·UX Designer Ambient.lee<br>
-        E-mail: ambient.lee.design@gmail.com
+        E-mail: <a href="mailto:ambient.lee.design@gmail.com">ambient.lee.design@gmail.com</a>
       </div>
       <div class="footer-copy">
         ⓒ Ambient.lee Portfolio. All rights reserved.
       </div>
     </footer>
 
-  </div><!-- /.page -->
-
-  <script src="main.js"></script>
+  </div><script src="main.js"></script>
 </body>
 </html>

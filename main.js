@@ -259,7 +259,7 @@
   }
 
   /* ============================================================
-     7. [HERO] Liquid Blob (색상 변경: #214769)
+     7. [HERO] Liquid Blob (단색 변경: #214769)
      ============================================================ */
   function initHeroBlobAndGrain() {
     const hero = document.querySelector(".hero");
@@ -340,14 +340,10 @@
       if (!w || !h) return;
       bctx.clearRect(0, 0, w, h);
 
-      // ✅ [수정됨] 사용자가 요청한 #214769 적용
-      const grad = bctx.createRadialGradient(ballX, ballY, r * 0.3, ballX, ballY, r);
-      grad.addColorStop(0, "#214769"); // 요청 색상 (Dark Blue)
-      grad.addColorStop(1, "#0d2335"); // 더 깊은 그림자 (자연스러운 입체감)
-
+      // ✅ [수정됨] 그라데이션 제거하고 단색으로 변경
       bctx.beginPath();
       bctx.arc(ballX, ballY, r, 0, Math.PI * 2);
-      bctx.fillStyle = grad;
+      bctx.fillStyle = "#214769"; // 단색 (Solid Color)
       bctx.fill();
     }
 

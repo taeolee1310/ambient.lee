@@ -103,13 +103,16 @@
     items.forEach((el) => observer.observe(el));
   }
 
-  /* ============================================================
-     4. 언어 변경 시스템
+/* ============================================================
+     4. 언어 변경 시스템 (슬라이딩 인터랙션 적용)
      ============================================================ */
   function initLanguageSystem() {
-    const langButtons = document.querySelectorAll(".lang-btn");
+    const wrapper = document.querySelector(".lang-switch-wrapper");
+    const glider = document.querySelector(".lang-glider");
+    const buttons = document.querySelectorAll(".lang-btn");
 
     function setLanguage(lang) {
+      // 1. HTML 언어 설정 및 텍스트 변경
       document.documentElement.lang = lang;
       
       const elements = document.querySelectorAll('[data-lang]');
@@ -120,30 +123,38 @@
         }
       });
 
-      langButtons.forEach(btn => {
-        const btnText = btn.textContent.trim().toLowerCase();
-        const targetLang = (lang === 'ko') ? 'kr' : 'en';
-
-        if (btnText === targetLang) {
-          btn.style.backgroundColor = 'var(--color-primary)';
-          btn.style.color = '#fff';
+      // 2. 버튼 상태 업데이트 및 글라이더 이동
+      buttons.forEach(btn => {
+        const val = btn.getAttribute("data-val"); // 'ko' or 'en'
+        
+        if (val === lang) {
+            btn.classList.add("active");
+            
+            // 글라이더 이동 로직: 버튼의 너비만큼 이동
+            // 첫 번째 버튼(KR)이면 0, 두 번째(EN)면 100% 이동
+            if (val === 'ko') {
+                glider.style.transform = "translateX(0)";
+            } else {
+                // 버튼 사이의 간격이나 패딩 고려하여 100% 이동
+                glider.style.transform = "translateX(100%)";
+            }
+            
         } else {
-          btn.style.backgroundColor = '#fff';
-          btn.style.color = 'var(--color-primary)';
+            btn.classList.remove("active");
         }
       });
     }
 
-    langButtons.forEach(btn => {
+    buttons.forEach(btn => {
       btn.addEventListener("click", function () {
-        const langCode = this.textContent.trim().toLowerCase() === 'kr' ? 'ko' : 'en';
-        setLanguage(langCode);
+        const val = this.getAttribute("data-val");
+        setLanguage(val);
       });
     });
 
+    // 초기 실행
     setLanguage('ko');
   }
-
   /* ============================================================
      5. 테마 스위치 (Light/Dark)
      ============================================================ */

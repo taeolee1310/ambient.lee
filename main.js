@@ -1,4 +1,3 @@
-// main.js
 (function () {
   /* ============================================================
      [설정] 다국어 번역 데이터
@@ -63,7 +62,6 @@
         else header.classList.remove("header--scrolled");
       }
       if (hero) {
-        // CSS에서 배경 설정을 따로 하므로 여기서는 심플하게 패럴랙스만
         const offset = Math.min(y * 0.06, 40);
         hero.style.backgroundPosition = `50% ${-offset}px`;
       }
@@ -103,7 +101,7 @@
     items.forEach((el) => observer.observe(el));
   }
 
-/* ============================================================
+  /* ============================================================
      4. 언어 변경 시스템 (슬라이딩 인터랙션 적용)
      ============================================================ */
   function initLanguageSystem() {
@@ -155,6 +153,7 @@
     // 초기 실행
     setLanguage('ko');
   }
+
   /* ============================================================
      5. 테마 스위치 (Light/Dark)
      ============================================================ */
@@ -208,8 +207,6 @@
     let w, h, grainTexture;
 
     function resize() {
-      // CSS에서 width: 100%, height: 100%로 잡혀있으므로
-      // 실제 픽셀 해상도를 윈도우 크기에 맞춰야 선명하게 나옵니다.
       w = staticCanvas.width = scrollCanvas.width = window.innerWidth;
       h = staticCanvas.height = scrollCanvas.height = window.innerHeight;
       generateGrain();
@@ -230,7 +227,6 @@
       const subR = 140, subG = 50, subB = 56;   // Brick Red
 
       for (let i = 0; i < buffer.length; i += 4) {
-        const t = Math.random();
         // 무작위로 Teal 또는 Red 계열 노이즈 생성
         if (Math.random() > 0.5) {
              buffer[i] = mainR; buffer[i+1] = mainG; buffer[i+2] = mainB;
@@ -275,14 +271,13 @@
   }
 
   /* ============================================================
-     7. [HERO] Liquid Blob (CSS 색상 적용: Teal & Red)
+     7. [HERO] Liquid Blob (원래 오렌지/남색 색상으로 복구)
      ============================================================ */
   function initHeroBlobAndGrain() {
     const hero = document.querySelector(".hero");
     const blobCanvas = document.getElementById("hero-blob");
     const grainCanvas = document.getElementById("hero-grain");
     
-    // 캔버스가 없으면 중단
     if (!hero || !blobCanvas || !grainCanvas) return;
 
     const bctx = blobCanvas.getContext("2d");
@@ -292,22 +287,16 @@
     let ballX, ballY, vx, vy, r;
     let mouseX = 0, mouseY = 0, mouseInside = false;
 
-    // 움직임 설정
     const FRICTION = 0.98;
     const BOUNCE = 0.9;
-    
     let grainTexture = null;
 
     function resize() {
-      // Hero 섹션의 실제 크기를 가져옴
       const rect = hero.getBoundingClientRect();
       w = blobCanvas.width = grainCanvas.width = rect.width;
       h = blobCanvas.height = grainCanvas.height = rect.height;
+      r = Math.min(w, h) * 0.15;
 
-      // 공 크기 설정
-      r = Math.min(w, h) * 0.15; // 화면의 15% 크기
-
-      // 공 초기 위치
       if (typeof ballX === 'undefined') {
         ballX = w / 2;
         ballY = h / 2;
@@ -317,7 +306,6 @@
       generateHeroGrain();
     }
 
-    // 마우스 인터랙션
     hero.addEventListener("mousemove", (e) => {
       const rect = hero.getBoundingClientRect();
       mouseX = e.clientX - rect.left;
@@ -329,7 +317,6 @@
     function updateBall() {
       if (!w || !h) return;
 
-      // 마우스 반발력
       if (mouseInside) {
         const dx = ballX - mouseX;
         const dy = ballY - mouseY;
@@ -344,19 +331,16 @@
         }
       }
 
-      // 물리 적용
       ballX += vx;
       ballY += vy;
       vx *= FRICTION;
       vy *= FRICTION;
 
-      // 벽 튕기기
       if (ballX < r) { ballX = r; vx *= -BOUNCE; }
       if (ballX > w - r) { ballX = w - r; vx *= -BOUNCE; }
       if (ballY < r) { ballY = r; vy *= -BOUNCE; }
       if (ballY > h - r) { ballY = h - r; vy *= -BOUNCE; }
 
-      // 멈춤 방지 (계속 조금씩 움직이게)
       const speed = Math.sqrt(vx*vx + vy*vy);
       if (speed < 0.2) {
          vx += (Math.random() - 0.5) * 0.5;
@@ -368,12 +352,10 @@
       if (!w || !h) return;
       bctx.clearRect(0, 0, w, h);
 
-      // ✅ [중요] CSS 컬러 변수 적용 (Teal -> Red 그라디언트)
-      // --color-primary: #338C87 (Teal)
-      // --color-sub: #8C3238 (Brick Red)
-      const grad = bctx.createRadialGradient(ballX, ballY, r * 0.2, ballX, ballY, r);
-      grad.addColorStop(0, "rgba(51, 140, 135, 1)");  // Teal 중심
-      grad.addColorStop(1, "rgba(140, 50, 56, 0.8)"); // Red 외곽
+      // ✅ [수정됨] 원래의 오렌지/남색 그라데이션으로 복구
+      const grad = bctx.createRadialGradient(ballX, ballY, r * 0.3, ballX, ballY, r);
+      grad.addColorStop(0, "#FC9877"); // 오렌지 중심
+      grad.addColorStop(1, "#003049"); // 남색 외곽
 
       bctx.beginPath();
       bctx.arc(ballX, ballY, r, 0, Math.PI * 2);
@@ -382,7 +364,6 @@
     }
 
     function generateHeroGrain() {
-       // Hero 전용 거친 노이즈
        const temp = document.createElement("canvas");
        temp.width = w; temp.height = h;
        const tctx = temp.getContext("2d");
@@ -392,7 +373,7 @@
        for(let i=0; i<buf.length; i+=4) {
          const v = Math.random() * 255;
          buf[i] = v; buf[i+1] = v; buf[i+2] = v;
-         buf[i+3] = 40; // 투명도
+         buf[i+3] = 40;
        }
        tctx.putImageData(img, 0, 0);
        grainTexture = temp;
@@ -412,7 +393,6 @@
       requestAnimationFrame(render);
     }
 
-    // 초기화
     resize();
     window.addEventListener("resize", resize);
     render();
@@ -428,6 +408,6 @@
     initLanguageSystem();
     initThemeToggle();
     initAmbientGrain();      // 배경 그레인 실행
-    initHeroBlobAndGrain();  // 히어로 원 실행 (Teal/Red)
+    initHeroBlobAndGrain();  // 히어로 원 실행 (원래 색상)
   });
 })();

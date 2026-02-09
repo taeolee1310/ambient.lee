@@ -516,6 +516,13 @@ body::after {
 .news-title { max-width: 76%; line-height: 1.5; }
 .news-date { font-size: 10px; color: var(--color-muted); }
 
+/* [NEW] LOG 섹션 버튼 중앙 정렬 (HTML 수정 없이 버튼 타겟팅) */
+.section--news .ghost-button {
+  display: block;       /* 블록 요소로 변경하여 마진 오토를 사용 가능하게 함 */
+  width: fit-content;   /* 버튼 크기만큼만 영역 차지 */
+  margin: 60px auto 0;  /* 위쪽 60px 여백, 좌우 중앙 정렬 */
+}
+
 /* ================================
    Contact & Footer
 ================================== */

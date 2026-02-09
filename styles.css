@@ -450,8 +450,9 @@ body.theme-dark .lang-btn.active {
   z-index: 10; /* 유리 효과보다 무조건 위에 */
 }
 
-/* 2. [핵심] 유리 기둥 (Ribs) 레이어
-   - 날카로운 수직 스트라이프를 생성하여 유리 기둥 형상화 */
+/* styles.css 내의 해당 부분 수정 */
+
+/* 날카로운 수직 유리 기둥 */
 .glass-ribs {
   position: absolute;
   top: 0;
@@ -459,25 +460,29 @@ body.theme-dark .lang-btn.active {
   width: 100%;
   height: 100%;
   z-index: 2;
-  opacity: 0.8;
-  mix-blend-mode: overlay; /* 배경색과 섞여서 깊이감 생성 */
-  
-  /* 반복되는 선형 그라데이션으로 입체적인 유리 기둥 표현 */
+  opacity: 0.7; /* 농도 약간 높임 */
+  mix-blend-mode: overlay;
+  pointer-events: none;
+
+  /* [핵심 추가] SVG 렌즈 왜곡 필터 적용 */
+  filter: url(#glass-lens-distortion);
+  /* 필터 적용 시 외곽이 잘리는 것 방지 */
+  transform: scale(1.05); 
+
+  /* ... 기존 background 그라데이션 코드는 그대로 유지 ... */
   background: repeating-linear-gradient(
     90deg,
     transparent 0px,
-    transparent 2px,
-    rgba(255, 255, 255, 0.05) 2px,  /* 기둥의 어두운 면 */
-    rgba(255, 255, 255, 0.3) 15px,  /* 기둥의 가장 밝은 하이라이트 (중앙) */
-    rgba(255, 255, 255, 0.05) 28px, /* 기둥의 어두운 면 */
-    transparent 28px,
-    transparent 30px,               /* 기둥 사이의 틈 (블랙) */
-    rgba(0, 0, 0, 0.8) 31px,        /* 깊은 그림자 */
-    rgba(0, 0, 0, 0.8) 32px
+    transparent 10px,
+    rgba(255, 255, 255, 0.05) 10px,
+    rgba(255, 255, 255, 0.2) 15px,
+    rgba(255, 255, 255, 0.05) 20px,
+    transparent 20px,
+    transparent 30px,
+    rgba(0, 0, 0, 0.8) 30px,
+    rgba(0, 0, 0, 0.8) 35px
   );
-  pointer-events: none;
 }
-
 /* 3. [핵심] 프랙탈 헤이즈 (Fractal Haze)
    - 유리 뒤에서 은은하게 일렁이는 푸른 빛의 왜곡 */
 .glass-highlight {

@@ -102,7 +102,7 @@
   }
 
   /* ============================================================
-     4. 언어 변경 시스템 (슬라이딩 인터랙션 적용)
+     4. 언어 변경 시스템
      ============================================================ */
   function initLanguageSystem() {
     const wrapper = document.querySelector(".lang-switch-wrapper");
@@ -147,26 +147,23 @@
   }
 
   /* ============================================================
-     5. 테마 스위치 (Light/Dark)
+     5. 테마 스위치 (Light/Dark) - ※ 필요 없다면 주석 처리 가능
      ============================================================ */
   function initThemeToggle() {
     const body = document.body;
     let toggle = document.querySelector(".theme-switch");
+    
+    // HTML에 버튼이 없으면 굳이 만들지 않도록 수정 (원하시는 경우)
+    if (!toggle) return; 
+
+    /* 만약 버튼을 동적으로 생성하고 싶다면 아래 주석 해제
     if (!toggle) {
       toggle = document.createElement("button");
       toggle.className = "theme-switch";
-      toggle.type = "button";
-      toggle.innerHTML = `
-        <span class="switch-label switch-label--light">Light</span>
-        <div class="switch-track">
-            <div class="switch-knob"></div>
-            <span class="switch-dot switch-dot--1"></span>
-            <span class="switch-dot switch-dot--2"></span>
-        </div>
-        <span class="switch-label switch-label--dark">Dark</span>
-      `;
+      // ... 버튼 생성 코드 ...
       body.appendChild(toggle);
     }
+    */
 
     let isDark = false;
     toggle.addEventListener("click", () => {
@@ -215,7 +212,7 @@
       const buffer = imgData.data;
 
       const mainR = 51, mainG = 140, mainB = 135; // Teal
-      const subR = 140, subG = 50, subB = 56;   // Brick Red
+      const subR = 140, subG = 50, subB = 56;    // Brick Red
 
       for (let i = 0; i < buffer.length; i += 4) {
         if (Math.random() > 0.5) {
@@ -259,7 +256,7 @@
   }
 
   /* ============================================================
-     7. [HERO] Liquid Blob (단색 변경: #214769)
+     7. [HERO] Liquid Blob
      ============================================================ */
   function initHeroBlobAndGrain() {
     const hero = document.querySelector(".hero");
@@ -340,10 +337,9 @@
       if (!w || !h) return;
       bctx.clearRect(0, 0, w, h);
 
-      // ✅ [수정됨] 그라데이션 제거하고 단색으로 변경
       bctx.beginPath();
       bctx.arc(ballX, ballY, r, 0, Math.PI * 2);
-      bctx.fillStyle = "#214769"; // 단색 (Solid Color)
+      bctx.fillStyle = "#214769"; 
       bctx.fill();
     }
 
@@ -383,6 +379,40 @@
   }
 
   /* ============================================================
+     8. [NEW] 유리 왜곡 (Fluted Glass) 효과 초기화
+     - 이 함수가 추가되어야 효과가 작동합니다.
+     ============================================================ */
+  function initGlassDistortion() {
+    const glassSection = document.querySelector('.we-artist');
+    // SVG 필터 내의 displacementMap 요소를 찾습니다.
+    const displacementMap = document.querySelector('#glass-distortion feDisplacementMap');
+    
+    // 요소가 없으면 실행하지 않음 (오류 방지)
+    if (!glassSection || !displacementMap) return;
+    
+    glassSection.addEventListener('mousemove', (e) => {
+      // 섹션 기준 상대 좌표 계산
+      const rect = glassSection.getBoundingClientRect();
+      const mouseX = e.clientX - rect.left;
+      const mouseY = e.clientY - rect.top;
+
+      // 1. CSS 변수 업데이트 (하이라이트 조명 위치 이동)
+      glassSection.style.setProperty('--mouse-x', `${mouseX}px`);
+      glassSection.style.setProperty('--mouse-y', `${mouseY}px`);
+
+      // 2. 왜곡(Scale) 동적 조절 (일렁이는 느낌)
+      // Math.sin과 시간(Date.now)을 이용해 계속 움직이는 값을 만듭니다.
+      const dynamicScale = 30 + (Math.sin(Date.now() / 100) * 5); 
+      displacementMap.setAttribute('scale', dynamicScale);
+    });
+    
+    // 마우스가 밖으로 나가면 왜곡을 기본값으로 되돌림
+    glassSection.addEventListener('mouseleave', () => {
+       displacementMap.setAttribute('scale', '15');
+    });
+  }
+
+  /* ============================================================
      실행 (DOM 로드 후)
      ============================================================ */
   document.addEventListener("DOMContentLoaded", () => {
@@ -392,6 +422,9 @@
     initLanguageSystem();
     initThemeToggle();
     initAmbientGrain();      
-    initHeroBlobAndGrain();  
+    initHeroBlobAndGrain();
+    
+    // ★ 새로 추가된 유리 효과 함수 실행
+    initGlassDistortion();   
   });
 })();

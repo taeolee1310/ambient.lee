@@ -14,95 +14,94 @@
 
   <style>
     /* =========================================
-       [수정됨] 특정 섹션(.we-artist) 전용 프랙탈 효과
+       [통합됨] 세로 유리 왜곡(Fluted Glass) 스타일
        ========================================= */
     
-    /* 1. 섹션 자체를 기준점으로 설정 */
+    /* 1. 섹션 설정 (배경색: 딥블루 #1c3a5a) */
     .we-artist {
-      position: relative; /* 자식 요소(프랙탈 배경) 가두기 */
-      overflow: hidden;   /* 삐져나가는 빛 잘라내기 */
-      background-color: #3b887e; /* 2번째 이미지의 틸(Teal) 색상 베이스 */
+      position: relative;
+      overflow: hidden;
+      background-color: #1c3a5a; /* 요청하신 진한 남색 */
+      padding: 100px 0;
       z-index: 1;
     }
 
-    /* 2. 프랙탈 글래스 패널 (배경) */
-    .fractal-glass-panel {
+    /* 2. 세로 유리 줄무늬 (질감) */
+    .glass-ribs {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      z-index: -1; /* 글자보다 뒤에 */
-      pointer-events: none; /* 마우스 이벤트 통과 */
-    }
-
-    /* 3. 세로 줄무늬 (유리 질감) - 1번째 이미지 느낌 */
-    .fractal-ribs {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      /* 얇고 촘촘한 세로 줄무늬 생성 */
+      /* 촘촘한 세로 유리 질감 */
       background: repeating-linear-gradient(
         90deg,
-        rgba(255, 255, 255, 0.05) 0px,
-        rgba(255, 255, 255, 0.0) 1px,
-        rgba(0, 0, 0, 0.1) 2px,
-        transparent 4px
+        rgba(255, 255, 255, 0.08) 0px,
+        rgba(255, 255, 255, 0.08) 1px,
+        transparent 1px,
+        transparent 12px,
+        rgba(0, 0, 0, 0.3) 13px,
+        rgba(0, 0, 0, 0.3) 14px,
+        transparent 14px,
+        transparent 24px
       );
+      /* [핵심] SVG 필터 연결 (일렁이는 효과) */
+      filter: url(#glass-distortion) blur(0.5px);
+      transform: scale(1.05); /* 왜곡 시 테두리 여백 방지 */
+      pointer-events: none;
       mix-blend-mode: overlay;
     }
 
-    /* 4. 마우스 따라다니는 빛 (인터랙션) */
-    .fractal-glow {
+    /* 3. 유리 표면 하이라이트 (입체감) */
+    .glass-highlight {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      /* 초기에는 투명, 마우스 움직일 때 JS로 좌표 업데이트 */
+      /* 마우스 주변 은은한 빛 */
       background: radial-gradient(
-        circle 500px at var(--glow-x, 50%) var(--glow-y, 50%), 
-        rgba(255, 220, 150, 0.4), /* 1번째 이미지의 따뜻한 앰버 빛 */
-        transparent 60%
+        circle 400px at var(--mouse-x, 50%) var(--mouse-y, 50%),
+        rgba(255, 255, 255, 0.15),
+        transparent 80%
       );
-      opacity: 0; /* 평소엔 숨김 */
-      transition: opacity 0.3s ease;
-      mix-blend-mode: hard-light; /* 강렬한 빛 효과 */
+      mix-blend-mode: screen;
+      pointer-events: none;
+      transition: opacity 0.3s;
     }
 
-    /* 마우스가 섹션 위에 있을 때만 빛남 */
-    .we-artist:hover .fractal-glow {
-      opacity: 1;
+    /* 4. 내부 콘텐츠 레이어 정리 */
+    .we-artist-inner {
+      position: relative;
+      z-index: 2; /* 유리 질감보다 위에 배치 */
     }
 
     /* =========================================
-       [수정됨] UI 정리 (이상한 버튼 숨김 등)
+       UI 정리 (버튼 숨김 및 텍스트)
        ========================================= */
     
-    /* 1. 왼쪽 아래 이상한 토글 버튼 숨기기 (또는 스타일 초기화) */
-    button#theme-toggle, .theme-btn-weird { 
-        display: none !important; 
+    /* 이상한 토글 버튼 숨김 */
+    button#theme-toggle, .theme-btn-weird { display: none !important; }
+    
+    /* 텍스트 가독성 강화 (그림자) */
+    .we-artist-title, .we-artist-sub, .we-artist-desc {
+        text-shadow: 0 2px 15px rgba(0,0,0,0.3);
     }
     
-    /* 혹시 모를 기본 버튼 스타일 리셋 */
-    button {
-        font-family: inherit;
-        border: none;
-        cursor: pointer;
-    }
-
-    /* 2. 텍스트 가독성 확보 */
-    .we-artist-title, .we-artist-sub, .we-artist-desc, .we-artist-circle {
-        text-shadow: 0 2px 10px rgba(0,0,0,0.1); /* 텍스트 뒤 그림자 살짝 */
-    }
-    
-    /* 기존 스타일 유지 */
+    /* 기존 스타일 리셋 방지 */
     body { margin: 0; }
   </style>
 </head>
 <body class="noto-sans-kr-body">
+
+  <svg style="display: none;">
+    <defs>
+      <filter id="glass-distortion">
+        <feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="2" result="noise" />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="30" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+    </defs>
+  </svg>
 
   <canvas id="grain-static"></canvas>
   <canvas id="grain-scroll"></canvas>
@@ -119,11 +118,9 @@
           <a href="#contact">CONTACT</a>
         </nav>
       </div>
-
       <div class="header-center">
         <div class="header-logo">Ambient.lee</div>
       </div>
-
       <div class="header-right">
         <div class="lang-switch-wrapper">
           <div class="lang-glider"></div>
@@ -153,9 +150,7 @@
 
     <section class="we-artist">
       
-      <div class="fractal-glass-panel">
-          <div class="fractal-ribs"></div> <div class="fractal-glow"></div> </div>
-      <div class="we-artist-inner">
+      <div class="glass-ribs"></div>      <div class="glass-highlight"></div> <div class="we-artist-inner">
         <div class="we-artist-mark">＊</div>
         <h2 class="we-artist-title">Ambient.lee</h2>
         <p class="we-artist-sub">
@@ -254,18 +249,32 @@
   <script src="main.js"></script>
   
   <script>
-    const weArtistSection = document.querySelector('.we-artist');
+    const glassSection = document.querySelector('.we-artist');
+    // SVG 필터 요소 선택
+    const displacementMap = document.querySelector('#glass-distortion feDisplacementMap');
     
-    // 이 섹션 안에서 마우스가 움직일 때만 좌표 계산
-    weArtistSection.addEventListener('mousemove', (e) => {
-      // 섹션의 위치 정보를 가져옴 (상대 좌표 계산을 위해)
-      const rect = weArtistSection.getBoundingClientRect();
-      const x = e.clientX - rect.left; // 섹션 왼쪽 끝 기준 X 좌표
-      const y = e.clientY - rect.top;  // 섹션 위쪽 끝 기준 Y 좌표
-      
-      // CSS 변수에 업데이트 (--glow-x, --glow-y)
-      weArtistSection.style.setProperty('--glow-x', `${x}px`);
-      weArtistSection.style.setProperty('--glow-y', `${y}px`);
+    // 애니메이션 프레임 최적화 변수
+    let mouseX = 0, mouseY = 0;
+    let currentScale = 20; // 기본 왜곡 정도
+    
+    glassSection.addEventListener('mousemove', (e) => {
+      const rect = glassSection.getBoundingClientRect();
+      mouseX = e.clientX - rect.left;
+      mouseY = e.clientY - rect.top;
+
+      // 1. 하이라이트 위치 이동 (CSS 변수)
+      glassSection.style.setProperty('--mouse-x', `${mouseX}px`);
+      glassSection.style.setProperty('--mouse-y', `${mouseY}px`);
+
+      // 2. 마우스 움직임에 따라 왜곡(Scale)을 살짝 증가시켜 '출렁'이는 느낌 주기
+      // 움직일 때 scale 값을 일시적으로 높임 (기본 30 -> 움직임에 따라 +@)
+      const dynamicScale = 30 + (Math.sin(Date.now() / 100) * 5); 
+      displacementMap.setAttribute('scale', dynamicScale);
+    });
+    
+    // 마우스가 나가면 왜곡을 잔잔하게 변경
+    glassSection.addEventListener('mouseleave', () => {
+       displacementMap.setAttribute('scale', '15');
     });
   </script>
 

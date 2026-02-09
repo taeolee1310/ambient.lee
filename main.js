@@ -106,7 +106,7 @@
      ============================================================ */
   function initLanguageSystem() {
     const wrapper = document.querySelector(".lang-switch-wrapper");
-    const glider = document.querySelector(".lang-glider");
+    // const glider = document.querySelector(".lang-glider"); // HTML 구조 변경 시 없을 수 있음
     const buttons = document.querySelectorAll(".lang-btn");
 
     function setLanguage(lang) {
@@ -125,11 +125,11 @@
         
         if (val === lang) {
             btn.classList.add("active");
-            if (val === 'ko') {
-                glider.style.transform = "translateX(0)";
-            } else {
-                glider.style.transform = "translateX(100%)";
-            }
+            // Glider 애니메이션 (필요 시 복구)
+            // if (glider) {
+            //     if (val === 'ko') glider.style.transform = "translateX(0)";
+            //     else glider.style.transform = "translateX(100%)";
+            // }
         } else {
             btn.classList.remove("active");
         }
@@ -147,23 +147,13 @@
   }
 
   /* ============================================================
-     5. 테마 스위치 (Light/Dark) - ※ 필요 없다면 주석 처리 가능
+     5. 테마 스위치 (Light/Dark)
      ============================================================ */
   function initThemeToggle() {
     const body = document.body;
     let toggle = document.querySelector(".theme-switch");
     
-    // HTML에 버튼이 없으면 굳이 만들지 않도록 수정 (원하시는 경우)
     if (!toggle) return; 
-
-    /* 만약 버튼을 동적으로 생성하고 싶다면 아래 주석 해제
-    if (!toggle) {
-      toggle = document.createElement("button");
-      toggle.className = "theme-switch";
-      // ... 버튼 생성 코드 ...
-      body.appendChild(toggle);
-    }
-    */
 
     let isDark = false;
     toggle.addEventListener("click", () => {
@@ -182,84 +172,49 @@
   }
 
   /* ============================================================
-     6. [배경] Ambient Grain
+     6. [배경] Ambient Grain (캔버스 노이즈)
      ============================================================ */
   function initAmbientGrain() {
-    const staticCanvas = document.getElementById("grain-static");
-    const scrollCanvas = document.getElementById("grain-scroll");
+    // 기존 id: grain-static, grain-scroll -> 새 HTML id: grain-canvas
+    // 호환성을 위해 둘 다 체크
+    const canvas = document.getElementById("grain-canvas") || document.getElementById("grain-static");
     
-    if (!staticCanvas || !scrollCanvas) return;
-
-    const sctx = staticCanvas.getContext("2d");
-    const ctx = scrollCanvas.getContext("2d");
-
-    let w, h, grainTexture;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    let width, height;
 
     function resize() {
-      w = staticCanvas.width = scrollCanvas.width = window.innerWidth;
-      h = staticCanvas.height = scrollCanvas.height = window.innerHeight;
-      generateGrain();
-      drawStaticGrain();
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
     }
 
-    function generateGrain() {
-      const temp = document.createElement("canvas");
-      const tctx = temp.getContext("2d");
-      temp.width = w;
-      temp.height = h;
+    function draw() {
+        const w = canvas.width;
+        const h = canvas.height;
+        const idata = ctx.createImageData(w, h);
+        const buffer32 = new Uint32Array(idata.data.buffer);
+        const len = buffer32.length;
 
-      const imgData = tctx.createImageData(w, h);
-      const buffer = imgData.data;
-
-      const mainR = 51, mainG = 140, mainB = 135; // Teal
-      const subR = 140, subG = 50, subB = 56;    // Brick Red
-
-      for (let i = 0; i < buffer.length; i += 4) {
-        if (Math.random() > 0.5) {
-             buffer[i] = mainR; buffer[i+1] = mainG; buffer[i+2] = mainB;
-        } else {
-             buffer[i] = subR; buffer[i+1] = subG; buffer[i+2] = subB;
+        for (let i = 0; i < len; i++) {
+            if (Math.random() < 0.05) { // 노이즈 밀도 조절
+                buffer32[i] = 0xffffffff; // White noise
+            }
         }
-        buffer[i + 3] = 30; 
-      }
-      tctx.putImageData(imgData, 0, 0);
-      grainTexture = temp;
+        ctx.putImageData(idata, 0, 0);
+        requestAnimationFrame(draw);
     }
 
-    function drawStaticGrain() {
-      if (!grainTexture) return;
-      sctx.clearRect(0, 0, w, h);
-      sctx.drawImage(grainTexture, 0, 0);
-    }
-
-    resize();
     window.addEventListener("resize", resize);
-
-    let targetOffset = 0;
-    let currentOffset = 0;
-    window.addEventListener("scroll", () => {
-      targetOffset = (window.scrollY || window.pageYOffset || 0) * 0.5;
-    });
-
-    function render() {
-      currentOffset += (targetOffset - currentOffset) * 0.1;
-      ctx.clearRect(0, 0, w, h);
-      const offsetY = - (currentOffset % h);
-      
-      if (grainTexture) {
-          ctx.drawImage(grainTexture, 0, offsetY);
-          ctx.drawImage(grainTexture, 0, offsetY + h);
-      }
-      requestAnimationFrame(render);
-    }
-    render();
+    resize();
+    draw();
   }
 
   /* ============================================================
-     7. [HERO] Liquid Blob
+     7. [HERO] Liquid Blob (기존 코드 유지)
      ============================================================ */
   function initHeroBlobAndGrain() {
     const hero = document.querySelector(".hero");
+    // 새 HTML 구조에서는 canvas id가 없을 수 있으므로 체크
     const blobCanvas = document.getElementById("hero-blob");
     const grainCanvas = document.getElementById("hero-grain");
     
@@ -336,7 +291,6 @@
     function drawBlob() {
       if (!w || !h) return;
       bctx.clearRect(0, 0, w, h);
-
       bctx.beginPath();
       bctx.arc(ballX, ballY, r, 0, Math.PI * 2);
       bctx.fillStyle = "#214769"; 
@@ -379,38 +333,81 @@
   }
 
   /* ============================================================
-     8. [NEW] 유리 왜곡 (Fluted Glass) 효과 초기화
-     - 이 함수가 추가되어야 효과가 작동합니다.
+     8. [NEW] FRACTAL LENS ENGINE (새로운 렌즈 왜곡 엔진)
+     - 마우스 위치를 추적하여 SVG 필터 내부의 렌즈 맵을 이동시킵니다.
+     - 부드러운 움직임(Lerp)을 적용하여 고급스러운 느낌을 줍니다.
      ============================================================ */
-  function initGlassDistortion() {
-    const glassSection = document.querySelector('.we-artist');
-    // SVG 필터 내의 displacementMap 요소를 찾습니다.
-    const displacementMap = document.querySelector('#glass-distortion feDisplacementMap');
+  const lensEngine = {
+    section: document.querySelector('.we-artist'),
+    lensMap: document.getElementById('lens-map-source'),
     
-    // 요소가 없으면 실행하지 않음 (오류 방지)
-    if (!glassSection || !displacementMap) return;
+    // 마우스 좌표 및 보간(Lerp) 변수
+    mouse: { x: 0, y: 0 },
+    target: { x: 0, y: 0 },
     
-    glassSection.addEventListener('mousemove', (e) => {
-      // 섹션 기준 상대 좌표 계산
-      const rect = glassSection.getBoundingClientRect();
-      const mouseX = e.clientX - rect.left;
-      const mouseY = e.clientY - rect.top;
+    // 설정값
+    lerpFactor: 0.1, // 숫자가 작을수록 더 부드럽게(느리게) 따라옴
+    lensSize: 500,   // 렌즈 크기 (픽셀)
+    
+    init() {
+        if (!this.section || !this.lensMap) return;
+        this.addEventListeners();
+        this.animate();
+    },
 
-      // 1. CSS 변수 업데이트 (하이라이트 조명 위치 이동)
-      glassSection.style.setProperty('--mouse-x', `${mouseX}px`);
-      glassSection.style.setProperty('--mouse-y', `${mouseY}px`);
+    addEventListeners() {
+        // 마우스 움직임 감지 -> 목표 좌표(target) 업데이트
+        this.section.addEventListener('mousemove', (e) => {
+            const rect = this.section.getBoundingClientRect();
+            this.target.x = e.clientX - rect.left;
+            this.target.y = e.clientY - rect.top;
+            
+            // CSS 변수 업데이트 (블루 글로우 조명용)
+            this.section.style.setProperty('--mouse-x', `${this.target.x}px`);
+            this.section.style.setProperty('--mouse-y', `${this.target.y}px`);
+        });
 
-      // 2. 왜곡(Scale) 동적 조절 (일렁이는 느낌)
-      // Math.sin과 시간(Date.now)을 이용해 계속 움직이는 값을 만듭니다.
-      const dynamicScale = 30 + (Math.sin(Date.now() / 100) * 5); 
-      displacementMap.setAttribute('scale', dynamicScale);
-    });
-    
-    // 마우스가 밖으로 나가면 왜곡을 기본값으로 되돌림
-    glassSection.addEventListener('mouseleave', () => {
-       displacementMap.setAttribute('scale', '15');
-    });
-  }
+        // 마우스가 섹션을 벗어나면 특별한 동작 없음 (중앙에 멈추거나 마지막 위치 유지)
+    },
+
+    // 애니메이션 루프 (매 프레임마다 실행)
+    animate() {
+        // 현재 위치를 목표 위치로 조금씩 이동 (Lerp)
+        this.mouse.x += (this.target.x - this.mouse.x) * this.lerpFactor;
+        this.mouse.y += (this.target.y - this.mouse.y) * this.lerpFactor;
+
+        // SVG feImage의 위치 업데이트
+        // 렌즈의 중심이 마우스 위치에 오도록 좌표 보정 (lensSize / 2)
+        const lensX = this.mouse.x - (this.lensSize / 2);
+        const lensY = this.mouse.y - (this.lensSize / 2);
+
+        // 1. 렌즈 맵 이미지 생성 (한 번만 만들어도 되지만, 동적 처리를 위해 데이터 URI 활용)
+        const svgData = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="${this.lensSize}" height="${this.lensSize}">
+                <defs>
+                    <radialGradient id="grad" cx="50%" cy="50%" r="50%">
+                        <stop offset="0%" stop-color="white" stop-opacity="1"/>
+                        <stop offset="40%" stop-color="#888" stop-opacity="0.8"/>
+                        <stop offset="100%" stop-color="black" stop-opacity="0"/>
+                    </radialGradient>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#grad)"/>
+            </svg>
+        `;
+        
+        // Base64 변환
+        const encodedSVG = "data:image/svg+xml;base64," + btoa(svgData);
+        
+        // SVG 필터 내의 이미지 소스 및 위치 업데이트
+        this.lensMap.setAttributeNS('http://www.w3.org/1999/xlink', 'href', encodedSVG);
+        this.lensMap.setAttribute('x', lensX);
+        this.lensMap.setAttribute('y', lensY);
+        this.lensMap.setAttribute('width', this.lensSize);
+        this.lensMap.setAttribute('height', this.lensSize);
+
+        requestAnimationFrame(this.animate.bind(this));
+    }
+  };
 
   /* ============================================================
      실행 (DOM 로드 후)
@@ -421,66 +418,14 @@
     initFadeInUp();
     initLanguageSystem();
     initThemeToggle();
+    
+    // 배경 그레인 (새 ID가 있으면 새 함수, 없으면 기존 함수 호환)
     initAmbientGrain();      
+    
+    // 히어로 블롭 (HTML 요소가 있을 때만 실행됨)
     initHeroBlobAndGrain();
     
-    // ★ 새로 추가된 유리 효과 함수 실행
-    initGlassDistortion();   
+    // ★ [NEW] 렌즈 왜곡 엔진 실행
+    lensEngine.init();   
   });
 })();
-/* main.js 파일 하단에 추가 또는 교체 */
-
-/* ============================================================
-   [NEW] 마우스 추적 및 SVG 렌즈 왜곡 위치 업데이트
-   ============================================================ */
-function initLensDistortion() {
-  const section = document.querySelector('.we-artist');
-  // SVG 내의 feImage 태그를 선택합니다.
-  const lensMapSource = document.getElementById('lens-map-source');
-
-  if (!section || !lensMapSource) return;
-
-  // 렌즈 역할을 할 SVG 원 이미지를 데이터 URI로 생성하는 함수
-  function createLensSVG(cx, cy) {
-    // 마우스 좌표(cx, cy)를 중심으로 하는 원형 그라데이션 SVG 문자열 생성
-    const svgString = `
-      <svg xmlns='http://www.w3.org/2000/svg' width='100%' height='100%'>
-        <defs>
-          <radialGradient id='lens-grad' cx='${cx}%' cy='${cy}%' r='15%'> <stop offset='0%' stop-color='white'/>
-            <stop offset='100%' stop-color='black'/>
-          </radialGradient>
-        </defs>
-        <rect width='100%' height='100%' fill='url(#lens-grad)'/>
-      </svg>
-    `;
-    // SVG 문자열을 base64로 인코딩하여 이미지 소스로 변환
-    return 'data:image/svg+xml;base64,' + btoa(svgString);
-  }
-
-  section.addEventListener('mousemove', (e) => {
-    const rect = section.getBoundingClientRect();
-    // 섹션 내에서의 마우스 상대 좌표를 퍼센트(%)로 계산
-    const xPercent = ((e.clientX - rect.left) / rect.width) * 100;
-    const yPercent = ((e.clientY - rect.top) / rect.height) * 100;
-
-    // 1. CSS 변수 업데이트 (파란색 조명 이동용 - 기존 기능 유지)
-    section.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
-    section.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
-
-    // 2. SVG 필터 업데이트 (돋보기 왜곡 중심점 이동)
-    // 계산된 퍼센트 좌표를 이용해 새로운 렌즈 이미지를 만들어 필터에 적용
-    lensMapSource.setAttribute('xlink:href', createLensSVG(xPercent, yPercent));
-  });
-  
-  // 마우스가 섹션을 벗어나면 렌즈 효과 제거 (검은색 이미지로 대체)
-  section.addEventListener('mouseleave', () => {
-      lensMapSource.setAttribute('xlink:href', 'data:image/svg+xml;base64,' + btoa(`<svg xmlns='http://www.w3.org/2000/svg' width='100%' height='100%'><rect width='100%' height='100%' fill='black'/></svg>`));
-  });
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  // ... 다른 초기화 함수들 ...
-  
-  // ★ 기존 initMouseTracker 대신 이 함수를 실행하세요.
-  initLensDistortion(); 
-});

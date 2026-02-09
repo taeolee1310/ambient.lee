@@ -14,121 +14,95 @@
 
   <style>
     /* =========================================
-       1. [핵심] 이미지 없이 코드로 만드는 프랙탈 글래스
+       [수정됨] 특정 섹션(.we-artist) 전용 프랙탈 효과
        ========================================= */
-    :root {
-      --mouse-x: 50%;
-      --mouse-y: 50%;
+    
+    /* 1. 섹션 자체를 기준점으로 설정 */
+    .we-artist {
+      position: relative; /* 자식 요소(프랙탈 배경) 가두기 */
+      overflow: hidden;   /* 삐져나가는 빛 잘라내기 */
+      background-color: #3b887e; /* 2번째 이미지의 틸(Teal) 색상 베이스 */
+      z-index: 1;
     }
 
-    /* 전체 배경 컨테이너 */
-    .fractal-container {
-      position: fixed;
+    /* 2. 프랙탈 글래스 패널 (배경) */
+    .fractal-glass-panel {
+      position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      z-index: -10;
-      background-color: #0d1f22; /* 아주 어두운 틸/블랙 베이스 */
-      overflow: hidden;
+      z-index: -1; /* 글자보다 뒤에 */
+      pointer-events: none; /* 마우스 이벤트 통과 */
     }
 
-    /* 1단계: 세로 줄무늬 (유리 결) 생성 - 이미지 파일 X */
+    /* 3. 세로 줄무늬 (유리 질감) - 1번째 이미지 느낌 */
     .fractal-ribs {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      /* CSS로 반복되는 세로 선 그리기 */
+      /* 얇고 촘촘한 세로 줄무늬 생성 */
       background: repeating-linear-gradient(
         90deg,
-        rgba(255, 255, 255, 0.03) 0px,
-        rgba(255, 255, 255, 0.03) 1px,
-        transparent 1px,
-        transparent 8px, /* 간격 조절 */
-        rgba(0, 0, 0, 0.2) 9px,
-        rgba(0, 0, 0, 0.2) 10px,
-        transparent 10px,
-        transparent 16px
+        rgba(255, 255, 255, 0.05) 0px,
+        rgba(255, 255, 255, 0.0) 1px,
+        rgba(0, 0, 0, 0.1) 2px,
+        transparent 4px
       );
-      /* 부드러운 느낌을 위한 블러 */
-      filter: blur(1px); 
+      mix-blend-mode: overlay;
     }
 
-    /* 2단계: 마우스 따라다니는 빛 (인터랙션) */
-    .fractal-light {
+    /* 4. 마우스 따라다니는 빛 (인터랙션) */
+    .fractal-glow {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      /* 마우스 위치(--mouse-x, y)에 따라 빛이 이동 */
+      /* 초기에는 투명, 마우스 움직일 때 JS로 좌표 업데이트 */
       background: radial-gradient(
-        circle 600px at var(--mouse-x) var(--mouse-y), 
-        rgba(20, 180, 160, 0.15), /* 중심부: 틸 색상 빛 */
-        transparent 50%
+        circle 500px at var(--glow-x, 50%) var(--glow-y, 50%), 
+        rgba(255, 220, 150, 0.4), /* 1번째 이미지의 따뜻한 앰버 빛 */
+        transparent 60%
       );
-      opacity: 0.8;
-      mix-blend-mode: overlay; /* 배경과 자연스럽게 섞임 */
-      pointer-events: none;
+      opacity: 0; /* 평소엔 숨김 */
       transition: opacity 0.3s ease;
+      mix-blend-mode: hard-light; /* 강렬한 빛 효과 */
     }
 
-    /* 3단계: 깊이감을 위한 앰비언트 오로라 (천천히 움직임) */
-    .fractal-aurora {
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle at 50% 50%, rgba(20, 100, 90, 0.4), transparent 60%),
-                  radial-gradient(circle at 80% 20%, rgba(200, 100, 50, 0.1), transparent 40%); /* 오렌지 틴트 */
-      filter: blur(60px);
-      animation: auroraMove 20s infinite alternate ease-in-out;
-      opacity: 0.6;
+    /* 마우스가 섹션 위에 있을 때만 빛남 */
+    .we-artist:hover .fractal-glow {
+      opacity: 1;
     }
-
-    @keyframes auroraMove {
-      0% { transform: translate(0, 0); }
-      100% { transform: translate(-10%, 10%); }
-    }
-
 
     /* =========================================
-       2. 텍스트 가독성 및 UI 조정
+       [수정됨] UI 정리 (이상한 버튼 숨김 등)
        ========================================= */
-    body, .page {
-      color: #ffffff !important;
-    }
-    a { color: #ffffff !important; text-decoration: none; }
     
-    .header { background: transparent !important; }
-
-    /* 카드들을 반투명 유리처럼 만들기 */
-    .work-card, .artist-card {
-      background: rgba(255, 255, 255, 0.02) !important;
-      border: 1px solid rgba(255, 255, 255, 0.1) !important;
-      backdrop-filter: blur(3px);
-      transition: transform 0.3s ease, background 0.3s ease;
+    /* 1. 왼쪽 아래 이상한 토글 버튼 숨기기 (또는 스타일 초기화) */
+    button#theme-toggle, .theme-btn-weird { 
+        display: none !important; 
     }
     
-    /* 카드 호버 시 빛나는 효과 */
-    .work-card:hover, .artist-card:hover {
-      background: rgba(255, 255, 255, 0.08) !important;
-      transform: translateY(-5px);
+    /* 혹시 모를 기본 버튼 스타일 리셋 */
+    button {
+        font-family: inherit;
+        border: none;
+        cursor: pointer;
     }
 
-    .news-item { border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important; }
-
-    /* 기존 그레인 효과 살짝 줄이기 */
-    #grain-static, #grain-scroll, #hero-grain { opacity: 0.15 !important; mix-blend-mode: screen; }
+    /* 2. 텍스트 가독성 확보 */
+    .we-artist-title, .we-artist-sub, .we-artist-desc, .we-artist-circle {
+        text-shadow: 0 2px 10px rgba(0,0,0,0.1); /* 텍스트 뒤 그림자 살짝 */
+    }
+    
+    /* 기존 스타일 유지 */
+    body { margin: 0; }
   </style>
 </head>
 <body class="noto-sans-kr-body">
-
-  <div class="fractal-container">
-    <div class="fractal-aurora"></div> <div class="fractal-ribs"></div>   <div class="fractal-light"></div>  </div>
 
   <canvas id="grain-static"></canvas>
   <canvas id="grain-scroll"></canvas>
@@ -145,13 +119,16 @@
           <a href="#contact">CONTACT</a>
         </nav>
       </div>
+
       <div class="header-center">
         <div class="header-logo">Ambient.lee</div>
       </div>
+
       <div class="header-right">
         <div class="lang-switch-wrapper">
-          <button class="lang-btn">KR</button>
-          <button class="lang-btn">EN</button>
+          <div class="lang-glider"></div>
+          <button class="lang-btn" data-val="ko">KR</button>
+          <button class="lang-btn" data-val="en">EN</button>
         </div>
       </div>
     </header>
@@ -168,12 +145,16 @@
           </p>
         </div>
         <div class="hero-art-wrap">
-          <canvas id="hero-blob" style="opacity:0.5;"></canvas>
+          <canvas id="hero-blob"></canvas>
+          <canvas id="hero-grain"></canvas>
         </div>
       </div>
     </section>
 
     <section class="we-artist">
+      
+      <div class="fractal-glass-panel">
+          <div class="fractal-ribs"></div> <div class="fractal-glow"></div> </div>
       <div class="we-artist-inner">
         <div class="we-artist-mark">＊</div>
         <h2 class="we-artist-title">Ambient.lee</h2>
@@ -181,22 +162,36 @@
           사용자의 맥락을 깊게 이해하고, 무드를 잃지 않는 정교한 화면을 만드는<br>
           Product · UI/UX Designer Ambient.lee 입니다.
         </p>
+
         <div class="we-artist-circles">
-          <div class="we-artist-circle">Product<span>문제 정의 & 전략</span></div>
-          <div class="we-artist-circle">Experience<span>플로우 & 인터랙션</span></div>
-          <div class="we-artist-circle">Visual<span>무드 & 브랜드 톤</span></div>
+          <div class="we-artist-circle">
+            Product
+            <span>문제 정의 & 전략</span>
+          </div>
+          <div class="we-artist-circle">
+            Experience
+            <span>플로우 & 인터랙션</span>
+          </div>
+          <div class="we-artist-circle">
+            Visual
+            <span>무드 & 브랜드 톤</span>
+          </div>
         </div>
+
         <p class="we-artist-desc">
           사용자 리서치와 데이터 기반 접근을 통해 문제를 정의하고,<br>
-          인터랙션과 무드를 결합한 경험을 설계합니다.
+          인터랙션과 무드를 결합한 경험을 설계합니다.<br>
+          ‘오래 머물고 싶은 화면’을 만드는 것이 목표입니다.
         </p>
       </div>
     </section>
 
     <section id="work" class="section section--work">
-      <div class="section-header"><h2 class="section-title">WORKS</h2></div>
+      <div class="section-header">
+        <h2 class="section-title">WORKS</h2>
+      </div>
       <div class="work-grid">
-        <a href="#" class="work-card-link">
+        <a href="https://www.behance.net/gallery/241453343/agoda-redesign" target="_blank" rel="noopener" class="work-card-link">
           <article class="work-card">
             <div class="work-thumb work-thumb--agoda"></div>
             <div class="work-content">
@@ -206,7 +201,7 @@
             </div>
           </article>
         </a>
-        <a href="#" class="work-card-link">
+        <a href="https://www.behance.net/gallery/242856429/-AI-" target="_blank" rel="noopener" class="work-card-link">
           <article class="work-card">
             <div class="work-thumb work-thumb--aiing"></div>
             <div class="work-content">
@@ -217,15 +212,41 @@
           </article>
         </a>
       </div>
+      <div class="work-more">
+        <button class="ghost-button" type="button">+ MORE VIEW</button>
+      </div>
     </section>
-    
+
+    <section id="process" class="section section--artist">
+      <div class="section-header"><h2 class="section-title">PROCESS</h2></div>
+      <div class="artist-grid">
+        <article class="artist-card"><div class="artist-thumb ambient-dot"></div><div class="artist-name">Discover</div><div class="artist-role">리서치 · 문제정의</div></article>
+        <article class="artist-card"><div class="artist-thumb ambient-dot"></div><div class="artist-name">Design</div><div class="artist-role">IA · UI 시스템</div></article>
+        <article class="artist-card"><div class="artist-thumb ambient-dot"></div><div class="artist-name">Deliver</div><div class="artist-role">프로토타이핑</div></article>
+      </div>
+    </section>
+
+    <section id="log" class="section section--news">
+      <div class="section-header"><h2 class="section-title">LOG</h2></div>
+      <ul class="news-list">
+        <li class="news-item"><span class="news-title">디자인 회고</span><span class="news-date">2025.11.25</span></li>
+        <li class="news-item"><span class="news-title">리서치 분석</span><span class="news-date">2025.11.10</span></li>
+      </ul>
+      <div class="news-more"><button class="ghost-button" type="button">+ MORE VIEW</button></div>
+    </section>
+
+    <section id="contact" class="section section--contact">
+      <div class="section-header"><h2 class="section-title">CONTACT</h2></div>
+      <p class="contact-text">
+        <a href="mailto:ambient.lee.design@gmail.com" class="contact-email"><strong>ambient.lee.design@gmail.com</strong></a>
+      </p>
+    </section>
+
     <footer class="footer">
-        <div class="footer-band">
-            <span>Ambient.lee</span>
-            <span>＊</span>
-            <span>Design is an Ambient Experience.</span>
-        </div>
-        <div class="footer-copy">ⓒ Ambient.lee Portfolio.</div>
+      <div class="footer-band">
+        <span>Ambient.lee</span><span>＊</span><span>Design is an Ambient Experience.</span>
+      </div>
+      <div class="footer-copy">ⓒ Ambient.lee Portfolio. All rights reserved.</div>
     </footer>
 
   </div>
@@ -233,12 +254,18 @@
   <script src="main.js"></script>
   
   <script>
-    document.addEventListener('mousemove', (e) => {
-      const x = e.clientX;
-      const y = e.clientY;
-      // CSS 변수에 마우스 좌표 실시간 업데이트
-      document.documentElement.style.setProperty('--mouse-x', x + 'px');
-      document.documentElement.style.setProperty('--mouse-y', y + 'px');
+    const weArtistSection = document.querySelector('.we-artist');
+    
+    // 이 섹션 안에서 마우스가 움직일 때만 좌표 계산
+    weArtistSection.addEventListener('mousemove', (e) => {
+      // 섹션의 위치 정보를 가져옴 (상대 좌표 계산을 위해)
+      const rect = weArtistSection.getBoundingClientRect();
+      const x = e.clientX - rect.left; // 섹션 왼쪽 끝 기준 X 좌표
+      const y = e.clientY - rect.top;  // 섹션 위쪽 끝 기준 Y 좌표
+      
+      // CSS 변수에 업데이트 (--glow-x, --glow-y)
+      weArtistSection.style.setProperty('--glow-x', `${x}px`);
+      weArtistSection.style.setProperty('--glow-y', `${y}px`);
     });
   </script>
 

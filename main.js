@@ -428,3 +428,59 @@
     initGlassDistortion();   
   });
 })();
+/* main.js 파일 하단에 추가 또는 교체 */
+
+/* ============================================================
+   [NEW] 마우스 추적 및 SVG 렌즈 왜곡 위치 업데이트
+   ============================================================ */
+function initLensDistortion() {
+  const section = document.querySelector('.we-artist');
+  // SVG 내의 feImage 태그를 선택합니다.
+  const lensMapSource = document.getElementById('lens-map-source');
+
+  if (!section || !lensMapSource) return;
+
+  // 렌즈 역할을 할 SVG 원 이미지를 데이터 URI로 생성하는 함수
+  function createLensSVG(cx, cy) {
+    // 마우스 좌표(cx, cy)를 중심으로 하는 원형 그라데이션 SVG 문자열 생성
+    const svgString = `
+      <svg xmlns='http://www.w3.org/2000/svg' width='100%' height='100%'>
+        <defs>
+          <radialGradient id='lens-grad' cx='${cx}%' cy='${cy}%' r='15%'> <stop offset='0%' stop-color='white'/>
+            <stop offset='100%' stop-color='black'/>
+          </radialGradient>
+        </defs>
+        <rect width='100%' height='100%' fill='url(#lens-grad)'/>
+      </svg>
+    `;
+    // SVG 문자열을 base64로 인코딩하여 이미지 소스로 변환
+    return 'data:image/svg+xml;base64,' + btoa(svgString);
+  }
+
+  section.addEventListener('mousemove', (e) => {
+    const rect = section.getBoundingClientRect();
+    // 섹션 내에서의 마우스 상대 좌표를 퍼센트(%)로 계산
+    const xPercent = ((e.clientX - rect.left) / rect.width) * 100;
+    const yPercent = ((e.clientY - rect.top) / rect.height) * 100;
+
+    // 1. CSS 변수 업데이트 (파란색 조명 이동용 - 기존 기능 유지)
+    section.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+    section.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+
+    // 2. SVG 필터 업데이트 (돋보기 왜곡 중심점 이동)
+    // 계산된 퍼센트 좌표를 이용해 새로운 렌즈 이미지를 만들어 필터에 적용
+    lensMapSource.setAttribute('xlink:href', createLensSVG(xPercent, yPercent));
+  });
+  
+  // 마우스가 섹션을 벗어나면 렌즈 효과 제거 (검은색 이미지로 대체)
+  section.addEventListener('mouseleave', () => {
+      lensMapSource.setAttribute('xlink:href', 'data:image/svg+xml;base64,' + btoa(`<svg xmlns='http://www.w3.org/2000/svg' width='100%' height='100%'><rect width='100%' height='100%' fill='black'/></svg>`));
+  });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  // ... 다른 초기화 함수들 ...
+  
+  // ★ 기존 initMouseTracker 대신 이 함수를 실행하세요.
+  initLensDistortion(); 
+});

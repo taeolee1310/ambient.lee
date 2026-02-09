@@ -1,96 +1,96 @@
 /* ================================
-   Color tokens
+  Color tokens
 ================================== */
 :root {
-  --color-primary: #338C87;   /* 메인 컬러 (teal) */
-  --color-sub: #8C3238;       /* 서브 컬러 (보색 brick red) */
+--color-primary: #338C87;   /* 메인 컬러 (teal) */
+--color-sub: #8C3238;       /* 서브 컬러 (보색 brick red) */
 
-  --color-bg: #f6f3f0;        /* 뉴트럴 베이스 (배경 톤) */
-  --color-text: #222222;
-  --color-muted: #8A8A8A;
+--color-bg: #f6f3f0;        /* 뉴트럴 베이스 (배경 톤) */
+--color-text: #222222;
+--color-muted: #8A8A8A;
 
-  --radius-card: 12px;
+--radius-card: 12px;
 }
 
 /* Noto Sans KR 기본 폰트 */
 .noto-sans-kr-body {
-  font-family: "Noto Sans KR", "Gothic A1", system-ui, -apple-system,
-    BlinkMacSystemFont, "Segoe UI", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 400;
-  font-style: normal;
+font-family: "Noto Sans KR", "Gothic A1", system-ui, -apple-system,
+BlinkMacSystemFont, "Segoe UI", sans-serif;
+font-optical-sizing: auto;
+font-weight: 400;
+font-style: normal;
 }
 
 /* ================================
-   Global Reset
+  Global Reset
 ================================== */
 * {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+box-sizing: border-box;
+margin: 0;
+padding: 0;
 }
 
 html,
 body {
-  width: 100%;
-  height: 100%;
-  color: var(--color-text);
-  background-color: var(--color-bg);
+width: 100%;
+height: 100%;
+color: var(--color-text);
+background-color: var(--color-bg);
 }
 
 img {
-  max-width: 100%;
-  display: block;
+max-width: 100%;
+display: block;
 }
 
 a {
-  color: inherit;
-  text-decoration: none;
+color: inherit;
+text-decoration: none;
 }
 
 button {
-  font-family: inherit;
+font-family: inherit;
 }
 
 /* ================================
-   Film grain + background mood
+  Film grain + background mood
 ================================== */
 
 body {
-  position: relative;
-  overflow-x: hidden;
+position: relative;
+overflow-x: hidden;
 
-  background:
-    radial-gradient(circle at 10% 0%, rgba(51, 140, 135, 0.18), transparent 55%),
-    radial-gradient(circle at 90% 100%, rgba(140, 50, 56, 0.20), transparent 55%),
-    linear-gradient(180deg, #f6f3f0 0%, #f5f2f0 60%, #f3f1ef 100%);
+background:
+radial-gradient(circle at 10% 0%, rgba(51, 140, 135, 0.18), transparent 55%),
+radial-gradient(circle at 90% 100%, rgba(140, 50, 56, 0.20), transparent 55%),
+linear-gradient(180deg, #f6f3f0 0%, #f5f2f0 60%, #f3f1ef 100%);
 }
 
 /* 전체 페이지에 아주 은은한 그레인 */
 body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  background-image: radial-gradient(
-    circle at 1px 1px,
-    rgba(0, 0, 0, 0.13) 1px,
-    transparent 0
-  );
-  background-size: 5px 5px;
-  mix-blend-mode: multiply;
-  opacity: 0.07;
+content: "";
+position: fixed;
+inset: 0;
+pointer-events: none;
+z-index: 0;
+background-image: radial-gradient(
+circle at 1px 1px,
+rgba(0, 0, 0, 0.13) 1px,
+transparent 0
+);
+background-size: 5px 5px;
+mix-blend-mode: multiply;
+opacity: 0.07;
 }
 
 /* 비네팅 */
 body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  box-shadow: inset 0 0 120px rgba(0, 0, 0, 0.14);
+content: "";
+position: fixed;
+inset: 0;
+pointer-events: none;
+z-index: 0;
+box-shadow: inset 0 0 120px rgba(0, 0, 0, 0.14);
 }
 
 /* 콘텐츠를 그레인 위에 올리기 */
@@ -98,975 +98,917 @@ body::after {
 .header,
 section,
 .footer {
-  position: relative;
-  z-index: 1;
+position: relative;
+z-index: 1;
 }
 
 /* ================================
-   Page wrapper
+  Page wrapper
 ================================== */
 
 .page {
-  min-height: 100vh;
-  max-width: 1200px;
-  margin: 0 auto;
-  background-color: rgba(246, 243, 240, 0.96);
-  box-shadow:
-    0 16px 40px rgba(0, 0, 0, 0.18),
-    0 0 0 1px rgba(255, 255, 255, 0.6);
+min-height: 100vh;
+max-width: 1200px;
+margin: 0 auto;
+background-color: rgba(246, 243, 240, 0.96);
+box-shadow:
+0 16px 40px rgba(0, 0, 0, 0.18),
+0 0 0 1px rgba(255, 255, 255, 0.6);
 }
 
 /* ================================
-   Header (FIXED & CLEAN)
+  Header (FIXED & CLEAN)
 ================================== */
 
 .header {
-  position: sticky;
-  top: 0;
-  z-index: 20;
+position: sticky;
+top: 0;
+z-index: 20;
 
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: center;
+display: grid;
+grid-template-columns: 1fr auto 1fr;
+align-items: center;
 
-  padding: 14px 24px;
-  background-color: rgba(246, 243, 240, 0.92);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+padding: 14px 24px;
+background-color: rgba(246, 243, 240, 0.92);
+backdrop-filter: blur(12px);
+border-bottom: 1px solid rgba(0, 0, 0, 0.04);
 }
 
 /* LEFT NAV */
 .header-left {
-  display: flex;
-  gap: 14px;
-  font-size: 10px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  white-space: nowrap;
+display: flex;
+gap: 14px;
+font-size: 10px;
+letter-spacing: 0.14em;
+text-transform: uppercase;
+white-space: nowrap;
 }
 
 .header-left a {
-  position: relative;
+position: relative;
 }
 
 .header-left a::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -2px;
-  width: 0;
-  height: 1px;
-  background-color: var(--color-primary);
-  transition: width 0.3s ease;
+content: "";
+position: absolute;
+left: 0;
+bottom: -2px;
+width: 0;
+height: 1px;
+background-color: var(--color-primary);
+transition: width 0.3s ease;
 }
 
 .header-left a:hover::after {
-  width: 100%;
+width: 100%;
 }
 
 /* CENTER LOGO */
 .header-center {
-  justify-self: center;
+justify-self: center;
 }
 
 .header-logo {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
+font-size: 11px;
+font-weight: 700;
+letter-spacing: 0.2em;
+text-transform: uppercase;
 }
 
 /* RIGHT LANG */
 .header-right {
-  justify-self: end;
-  display: flex;
+justify-self: end;
+display: flex;
 }
 
 /* ================================
-   High-end Language Switch (슬라이딩 글래스)
+  High-end Language Switch (슬라이딩 글래스)
 ================================== */
 
 .lang-switch-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-  background-color: rgba(0, 0, 0, 0.04);
-  border-radius: 999px;
-  padding: 4px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.06);
+position: relative;
+display: flex;
+align-items: center;
+background-color: rgba(0, 0, 0, 0.04);
+border-radius: 999px;
+padding: 4px;
+border: 1px solid rgba(255, 255, 255, 0.1);
+box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.06);
 }
 
 .lang-glider {
-  position: absolute;
-  top: 4px;
-  left: 4px;
-  width: calc(50% - 4px);
-  height: calc(100% - 8px);
-  background-color: #ffffff;
-  border-radius: 999px;
-  z-index: 1;
-  box-shadow: 
-    0 2px 8px rgba(0, 0, 0, 0.08),
-    0 1px 2px rgba(0, 0, 0, 0.04);
-  transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+position: absolute;
+top: 4px;
+left: 4px;
+width: calc(50% - 4px);
+height: calc(100% - 8px);
+background-color: #ffffff;
+border-radius: 999px;
+z-index: 1;
+box-shadow: 
+0 2px 8px rgba(0, 0, 0, 0.08),
+0 1px 2px rgba(0, 0, 0, 0.04);
+transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .lang-btn {
-  position: relative;
-  z-index: 2;
-  width: 36px;
-  height: 24px;
-  border: none;
-  background: transparent;
-  border-radius: 999px;
-  font-size: 10px;
-  font-weight: 500;
-  color: var(--color-muted);
-  letter-spacing: 0.05em;
-  cursor: pointer;
-  transition: color 0.3s ease;
-  padding: 0;
-  margin: 0;
+position: relative;
+z-index: 2;
+width: 36px;
+height: 24px;
+border: none;
+background: transparent;
+border-radius: 999px;
+font-size: 10px;
+font-weight: 500;
+color: var(--color-muted);
+letter-spacing: 0.05em;
+cursor: pointer;
+transition: color 0.3s ease;
+padding: 0;
+margin: 0;
 }
 
 .lang-btn.active {
-  color: var(--color-primary);
-  font-weight: 700;
+color: var(--color-primary);
+font-weight: 700;
 }
 
 /* 다크 모드 대응 */
 body.theme-dark .lang-switch-wrapper {
-  background-color: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.05);
+background-color: rgba(255, 255, 255, 0.06);
+border-color: rgba(255, 255, 255, 0.05);
 }
 
 body.theme-dark .lang-glider {
-  background-color: rgba(60, 64, 70, 0.8);
-  backdrop-filter: blur(4px);
+background-color: rgba(60, 64, 70, 0.8);
+backdrop-filter: blur(4px);
 }
 
 body.theme-dark .lang-btn.active {
-  color: #fff;
+color: #fff;
 }
 
 /* ================================
-   Responsive Header
+  Responsive Header
 ================================== */
 
 @media (max-width: 768px) {
-  .header {
-    grid-template-columns: auto 1fr;
-  }
-  .header-center {
-    justify-self: end;
-  }
-  .header-right {
-    display: none;
-  }
+.header {
+grid-template-columns: auto 1fr;
+}
+.header-center {
+justify-self: end;
+}
+.header-right {
+display: none;
+}
 }
 
 @media (max-width: 520px) {
-  .header-left {
-    gap: 10px;
-    font-size: 9px;
-  }
+.header-left {
+gap: 10px;
+font-size: 9px;
+}
 }
 
 /* ================================
-   HERO
+  HERO
 ================================== */
 
 .hero {
-  position: relative;
-  min-height: calc(100vh - 64px);
-  display: flex;
-  align-items: center;
-  padding-top: 0;
-  padding-bottom: 80px;
-  overflow: hidden;
+position: relative;
+min-height: calc(100vh - 64px);
+display: flex;
+align-items: center;
+padding-top: 0;
+padding-bottom: 80px;
+overflow: hidden;
 }
 
 .hero-inner {
-  position: static;
-  max-width: 1080px;
-  margin: 0 auto;
-  padding: 0 24px;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 48px;
+position: static;
+max-width: 1080px;
+margin: 0 auto;
+padding: 0 24px;
+width: 100%;
+display: flex;
+align-items: center;
+justify-content: space-between;
+gap: 48px;
 }
 
 .hero-text {
-  flex: 1 1 0;
-  position: relative;
-  z-index: 2;
+flex: 1 1 0;
+position: relative;
+z-index: 2;
 }
 
 .hero-art-wrap {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-  pointer-events: none;
+position: absolute;
+inset: 0;
+width: 100%;
+height: 100%;
+z-index: 1;
+pointer-events: none;
 }
 
 #hero-blob,
 #hero-grain {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  display: block;
+position: absolute;
+inset: 0;
+width: 100%;
+height: 100%;
+display: block;
 }
 
 #hero-grain {
-  mix-blend-mode: soft-light;
-  opacity: 0.22;
-  z-index: 3;
+mix-blend-mode: soft-light;
+opacity: 0.22;
+z-index: 3;
 }
 #hero-blob {
-  z-index: 2;
+z-index: 2;
 }
 
 .hero::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background: radial-gradient(
-    circle at center,
-    rgba(0,0,0,0.00) 50%,
-    rgba(0,0,0,0.04) 75%,
-    rgba(0,0,0,0.08) 100%
-  );
+content: "";
+position: absolute;
+inset: 0;
+z-index: 1;
+pointer-events: none;
+background: radial-gradient(
+circle at center,
+rgba(0,0,0,0.00) 50%,
+rgba(0,0,0,0.04) 75%,
+rgba(0,0,0,0.08) 100%
+);
 }
 
 @media (max-width: 768px) {
-  .hero {
-    min-height: calc(100vh - 64px);
-    padding-top: 16px;
-    padding-bottom: 48px;
-  }
-  .hero-inner {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 32px;
-  }
+.hero {
+min-height: calc(100vh - 64px);
+padding-top: 16px;
+padding-bottom: 48px;
+}
+.hero-inner {
+flex-direction: column;
+align-items: flex-start;
+gap: 32px;
+}
 }
 
 /* ================================
-   Ambient Dot (오렌지 그레인 배경)
+  Ambient Dot (오렌지 그레인 배경)
 ================================== */
 
 .ambient-dot {
-  position: relative;
-  border-radius: inherit;
-  overflow: hidden;
-  background: radial-gradient(
-    circle,
-    #ffab8d 0%,
-    #ff9966 30%,
-    #ff8307 65%,
-    rgba(255, 131, 7, 0.15) 100%
-  );
-  filter: blur(4px);
-  box-shadow:
-    0 0 100px rgba(255, 131, 7, 0.4),
-    0 0 40px rgba(255, 131, 7, 0.25),
-    0 0 18px rgba(255, 131, 7, 0.18);
+position: relative;
+border-radius: inherit;
+overflow: hidden;
+background: radial-gradient(
+circle,
+#ffab8d 0%,
+#ff9966 30%,
+#ff8307 65%,
+rgba(255, 131, 7, 0.15) 100%
+);
+filter: blur(4px);
+box-shadow:
+0 0 100px rgba(255, 131, 7, 0.4),
+0 0 40px rgba(255, 131, 7, 0.25),
+0 0 18px rgba(255, 131, 7, 0.18);
 }
 
 .ambient-dot::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  background-image:
-    radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.08) 1px, transparent 0),
-    radial-gradient(circle at 1px 1px, rgba(0, 0, 0, 0.09) 1px, transparent 0);
-  background-size: 3px 3px, 4px 4px;
-  opacity: 0.35;
-  mix-blend-mode: overlay;
+content: "";
+position: absolute;
+inset: 0;
+border-radius: inherit;
+pointer-events: none;
+background-image:
+radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.08) 1px, transparent 0),
+radial-gradient(circle at 1px 1px, rgba(0, 0, 0, 0.09) 1px, transparent 0);
+background-size: 3px 3px, 4px 4px;
+opacity: 0.35;
+mix-blend-mode: overlay;
 }
 
 .work-thumb.ambient-dot,
 .artist-thumb.ambient-dot {
-  filter: blur(2.5px);
-  box-shadow:
-    0 0 50px rgba(255, 131, 7, 0.28),
-    0 0 20px rgba(255, 131, 7, 0.18);
+filter: blur(2.5px);
+box-shadow:
+0 0 50px rgba(255, 131, 7, 0.28),
+0 0 20px rgba(255, 131, 7, 0.18);
 }
 
 /* ================================
-   Common section
+  Common section
 ================================== */
 
 .section {
-  padding: 56px 20px;
+padding: 56px 20px;
 }
 
 .section-header {
-  text-align: center;
-  margin-bottom: 24px;
+text-align: center;
+margin-bottom: 24px;
 }
 
 .section-title {
-  font-size: 18px;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
+font-size: 18px;
+letter-spacing: 0.24em;
+text-transform: uppercase;
 }
 
-/* ==========================================================
-   [재구현] FRACTAL HAZE (Deep Blue & Sharp Ribs)
-   - 레퍼런스 이미지의 날카로운 유리 질감과 깊은 색감 구현
-========================================================== */
+/* ================================
+  ABOUT
+================================== */
 
-/* 1. 섹션 베이스: 칠흑 같은 어둠 + 블루 글로우 */
 .we-artist {
-  position: relative;
-  /* 배경: 아주 깊은 다크 블루 ~ 블랙 */
-  background: radial-gradient(
-    circle at 50% 30%, 
-    #0a1f3d 0%,    /* 중앙: 딥 블루 */
-    #000000 60%    /* 외곽: 완전한 블랙 */
-  );
-  color: #ffffff;
-  padding: 120px 20px;
-  overflow: hidden;
-  z-index: 1;
+background: linear-gradient(
+135deg,
+rgba(51, 140, 135, 0.96),
+rgba(51, 140, 135, 0.9)
+);
+color: #fdfdfd;
+padding: 60px 20px 72px;
 }
 
 .we-artist-inner {
-  position: relative;
-  max-width: 720px;
-  margin: 0 auto;
-  text-align: center;
-  z-index: 10; /* 유리 효과보다 무조건 위에 */
+max-width: 720px;
+margin: 0 auto;
+text-align: center;
 }
 
-/* styles.css 내의 해당 부분 수정 */
-
-/* 날카로운 수직 유리 기둥 */
-.glass-ribs {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-  opacity: 0.7; /* 농도 약간 높임 */
-  mix-blend-mode: overlay;
-  pointer-events: none;
-
-  /* [핵심 추가] SVG 렌즈 왜곡 필터 적용 */
-  filter: url(#glass-lens-distortion);
-  /* 필터 적용 시 외곽이 잘리는 것 방지 */
-  transform: scale(1.05); 
-
-  /* ... 기존 background 그라데이션 코드는 그대로 유지 ... */
-  background: repeating-linear-gradient(
-    90deg,
-    transparent 0px,
-    transparent 10px,
-    rgba(255, 255, 255, 0.05) 10px,
-    rgba(255, 255, 255, 0.2) 15px,
-    rgba(255, 255, 255, 0.05) 20px,
-    transparent 20px,
-    transparent 30px,
-    rgba(0, 0, 0, 0.8) 30px,
-    rgba(0, 0, 0, 0.8) 35px
-  );
-}
-/* 3. [핵심] 프랙탈 헤이즈 (Fractal Haze)
-   - 유리 뒤에서 은은하게 일렁이는 푸른 빛의 왜곡 */
-.glass-highlight {
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  z-index: 1;
-  
-  /* 레퍼런스의 일렉트릭 블루 빛 */
-  background: radial-gradient(
-    circle at center,
-    rgba(0, 100, 255, 0.3), /* 강렬한 블루 */
-    transparent 60%
-  );
-  
-  /* 빛이 천천히 움직이며 유리 뒤에서 굴절되는 느낌 */
-  animation: hazeMove 15s infinite alternate ease-in-out;
-  pointer-events: none;
-}
-
-@keyframes hazeMove {
-  0% { transform: translate(0, 0) scale(1); opacity: 0.6; }
-  100% { transform: translate(-5%, 5%) scale(1.2); opacity: 0.9; }
-}
-
-/* 4. 마우스 인터랙션 (선택사항)
-   - 마우스가 올라가면 빛이 더 강해짐 */
-.glass-ribs::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  /* 마우스 위치에 따라 스포트라이트 (JS 연동 필요, 없으면 중앙 고정) */
-  background: radial-gradient(
-    circle 600px at var(--mouse-x, 50%) var(--mouse-y, 50%),
-    rgba(255, 255, 255, 0.15),
-    transparent 70%
-  );
-  opacity: 0;
-  transition: opacity 0.5s;
-  mix-blend-mode: color-dodge; /* 빛을 더 쨍하게 만듦 */
-}
-
-.we-artist:hover .glass-ribs::after {
-  opacity: 1;
-}
-
-
-/* 5. 텍스트 가독성 확보 (배경이 어두워졌으므로) */
 .we-artist-mark {
-  font-size: 20px;
-  margin-bottom: 12px;
-  color: #64ffda; /* 포인트 컬러 (밝은 민트/블루) */
-  text-shadow: 0 0 10px rgba(100, 255, 218, 0.5);
+font-size: 20px;
+margin-bottom: 12px;
 }
 
 .we-artist-title {
-  font-size: 24px;
-  letter-spacing: 0.35em;
-  text-transform: uppercase;
-  margin-bottom: 8px;
-  font-weight: 700;
-  text-shadow: 0 0 20px rgba(0,0,0,0.8);
+font-size: 22px;
+letter-spacing: 0.32em;
+text-transform: uppercase;
+margin-bottom: 8px;
 }
 
 .we-artist-sub {
-  font-size: 13px;
-  opacity: 0.9;
-  margin-bottom: 40px;
-  color: #ccd6f6;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+font-size: 12px;
+opacity: 0.9;
+margin-bottom: 32px;
 }
 
 .we-artist-circles {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  flex-wrap: wrap;
-  margin-bottom: 40px;
+display: flex;
+justify-content: center;
+gap: 16px;
+flex-wrap: wrap;
+margin-bottom: 32px;
 }
 
 .we-artist-circle {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  /* 유리볼 느낌 강화 */
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(4px); /* 뒤의 기둥이 흐릿하게 비침 */
-  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.05);
-  
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  transition: all 0.3s ease;
+width: 110px;
+height: 110px;
+border-radius: 50%;
+border: 1px solid rgba(255, 255, 255, 0.7);
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+font-size: 11px;
+background-color: rgba(255, 255, 255, 0.04);
+transition: transform 0.35s ease-out,
+box-shadow 0.35s ease-out,
+background-color 0.35s ease-out;
 }
 
 .we-artist-circle span {
-  margin-top: 6px;
-  font-size: 10px;
-  color: #8892b0;
+margin-top: 4px;
+font-size: 10px;
+opacity: 0.8;
 }
 
 .we-artist-circle:hover {
-  background: rgba(0, 100, 255, 0.15); /* 호버 시 블루 틴트 */
-  border-color: rgba(100, 200, 255, 0.6);
-  box-shadow: 0 0 30px rgba(0, 100, 255, 0.3);
-  transform: translateY(-5px);
+transform: translateY(-3px);
+box-shadow: 0 12px 22px rgba(0, 0, 0, 0.18);
+background-color: rgba(255, 255, 255, 0.12);
 }
 
 .we-artist-desc {
-  font-size: 13px;
-  line-height: 1.8;
-  color: #a8b2d1;
-  text-shadow: 0 2px 4px rgba(0,0,0,1);
+font-size: 12px;
+line-height: 1.8;
+opacity: 0.95;
 }
 
-/* 기존 HTML에 있던 SVG 필터는 이제 필요 없으므로 무시되거나 삭제해도 됨 */
 /* ================================
-   WORKS
+  WORKS
 ================================== */
 
 .section--work {
-  background:
-    radial-gradient(circle at 0 100%, rgba(51, 140, 135, 0.06), transparent 55%),
-    radial-gradient(circle at 100% 0, rgba(140, 50, 56, 0.06), transparent 55%),
-    #f6f3f0;
+background:
+radial-gradient(circle at 0 100%, rgba(51, 140, 135, 0.06), transparent 55%),
+radial-gradient(circle at 100% 0, rgba(140, 50, 56, 0.06), transparent 55%),
+#f6f3f0;
 }
 
 .work-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 16px;
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+gap: 16px;
 }
 
 .work-card-link {
-  display: block;
-  text-decoration: none;
-  color: inherit;
+display: block;
+text-decoration: none;
+color: inherit;
 }
 
 .work-card {
-  background-color: #fdfaf7;
-  border-radius: var(--radius-card);
-  overflow: hidden;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-  font-size: 11px;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  transition: transform 0.35s ease-out, box-shadow 0.35s ease-out;
+background-color: #fdfaf7;
+border-radius: var(--radius-card);
+overflow: hidden;
+box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+font-size: 11px;
+display: flex;
+flex-direction: column;
+height: 100%;
+transition: transform 0.35s ease-out, box-shadow 0.35s ease-out;
 }
 
 .work-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 22px rgba(0, 0, 0, 0.18);
+transform: translateY(-3px);
+box-shadow: 0 12px 22px rgba(0, 0, 0, 0.18);
 }
 
 .work-thumb {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  border-radius: var(--radius-card) var(--radius-card) 0 0;
-  overflow: hidden;
+position: relative;
+width: 100%;
+aspect-ratio: 4 / 3;
+border-radius: var(--radius-card) var(--radius-card) 0 0;
+overflow: hidden;
 }
 
 /* Agoda 썸네일 */
 .work-thumb--agoda {
-  background-image: url("./assets/images/cover-agoda.jpeg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+background-image: url("./assets/images/cover-agoda.jpeg");
+background-size: cover;
+background-position: center;
+background-repeat: no-repeat;
 }
 
 .work-content {
-  padding: 10px 10px 12px;
+padding: 10px 10px 12px;
 }
 
 .work-tag {
-  font-size: 9px;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  color: var(--color-muted);
-  margin-bottom: 4px;
+font-size: 9px;
+text-transform: uppercase;
+letter-spacing: 0.15em;
+color: var(--color-muted);
+margin-bottom: 4px;
 }
 
 .work-title {
-  font-size: 12px;
-  font-weight: 500;
-  margin-bottom: 4px;
+font-size: 12px;
+font-weight: 500;
+margin-bottom: 4px;
 }
 
 .work-meta {
-  font-size: 10px;
-  color: var(--color-muted);
-  line-height: 1.5;
+font-size: 10px;
+color: var(--color-muted);
+line-height: 1.5;
 }
 
 .work-more {
-  text-align: center;
-  margin-top: 24px;
+text-align: center;
+margin-top: 24px;
 }
 
 .ghost-button {
-  display: inline-block;
-  padding: 7px 22px;
-  border-radius: 999px;
-  border: 1px solid rgba(140, 50, 56, 0.35);
-  font-size: 10px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  background-color: transparent;
-  cursor: pointer;
-  transition:
-    background-color 0.35s ease-out,
-    color 0.35s ease-out,
-    transform 0.32s ease-out,
-    box-shadow 0.35s ease-out;
+display: inline-block;
+padding: 7px 22px;
+border-radius: 999px;
+border: 1px solid rgba(140, 50, 56, 0.35);
+font-size: 10px;
+letter-spacing: 0.14em;
+text-transform: uppercase;
+background-color: transparent;
+cursor: pointer;
+transition:
+background-color 0.35s ease-out,
+color 0.35s ease-out,
+transform 0.32s ease-out,
+box-shadow 0.35s ease-out;
 }
 
 .ghost-button:hover {
-  background-color: rgba(140, 50, 56, 0.85);
-  color: #fffdf8;
-  transform: translateY(-2px);
-  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.22);
+background-color: rgba(140, 50, 56, 0.85);
+color: #fffdf8;
+transform: translateY(-2px);
+box-shadow: 0 10px 18px rgba(0, 0, 0, 0.22);
 }
 
 /* ================================
-   PROCESS
+  PROCESS
 ================================== */
 
 .section--artist {
-  background:
-    radial-gradient(circle at 0 50%, rgba(51, 140, 135, 0.08), transparent 60%),
-    #f6f3f0;
+background:
+radial-gradient(circle at 0 50%, rgba(51, 140, 135, 0.08), transparent 60%),
+#f6f3f0;
 }
 
 .artist-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 16px;
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+gap: 16px;
 }
 
 .artist-card {
-  text-align: center;
-  font-size: 11px;
-  transition: transform 0.35s ease-out, box-shadow 0.35s ease-out;
+text-align: center;
+font-size: 11px;
+transition: transform 0.35s ease-out, box-shadow 0.35s ease-out;
 }
 
 .artist-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 14px rgba(0, 0, 0, 0.16);
+transform: translateY(-3px);
+box-shadow: 0 8px 14px rgba(0, 0, 0, 0.16);
 }
 
 .artist-thumb {
-  width: 100%;
-  padding-bottom: 140%;
-  border-radius: var(--radius-card);
-  position: relative;
+width: 100%;
+padding-bottom: 140%;
+border-radius: var(--radius-card);
+position: relative;
 }
 
 .artist-name {
-  margin-top: 8px;
-  font-size: 11px;
+margin-top: 8px;
+font-size: 11px;
 }
 
 .artist-role {
-  margin-top: 2px;
-  font-size: 10px;
-  color: var(--color-muted);
+margin-top: 2px;
+font-size: 10px;
+color: var(--color-muted);
 }
 
 /* ================================
-   LOG
+  LOG
 ================================== */
 
 .section--news {
-  background:
-    radial-gradient(circle at 100% 50%, rgba(140, 50, 56, 0.08), transparent 60%),
-    #f6f3f0;
+background:
+radial-gradient(circle at 100% 50%, rgba(140, 50, 56, 0.08), transparent 60%),
+#f6f3f0;
 }
 
 .news-list {
-  list-style: none;
-  font-size: 11px;
-  border-top: 1px solid rgba(0, 0, 0, 0.08);
-  margin-top: 10px;
+list-style: none;
+font-size: 11px;
+border-top: 1px solid rgba(0, 0, 0, 0.08);
+margin-top: 10px;
 }
 
 .news-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  padding: 7px 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-  transition:
-    background-color 0.35s ease-out,
-    padding-left 0.35s ease-out;
+display: flex;
+justify-content: space-between;
+align-items: baseline;
+padding: 7px 0;
+border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+transition:
+background-color 0.35s ease-out,
+padding-left 0.35s ease-out;
 }
 
 .news-title {
-  max-width: 76%;
-  line-height: 1.5;
+max-width: 76%;
+line-height: 1.5;
 }
 
 .news-date {
-  font-size: 10px;
-  color: var(--color-muted);
+font-size: 10px;
+color: var(--color-muted);
 }
 
 .news-item:hover {
-  background-color: rgba(51, 140, 135, 0.08);
-  padding-left: 4px;
+background-color: rgba(51, 140, 135, 0.08);
+padding-left: 4px;
 }
 
 .news-more {
-  margin-top: 18px;
-  text-align: right;
+margin-top: 18px;
+text-align: right;
 }
 
 /* ================================
-   CONTACT
+  CONTACT
 ================================== */
 
 .section--contact {
-  background:
-    linear-gradient(
-      135deg,
-      rgba(51, 140, 135, 0.04),
-      rgba(140, 50, 56, 0.04)
-    ),
-    #f6f3f0;
+background:
+linear-gradient(
+135deg,
+rgba(51, 140, 135, 0.04),
+rgba(140, 50, 56, 0.04)
+),
+#f6f3f0;
 }
 
 .contact-text {
-  font-size: 12px;
-  line-height: 1.9;
-  text-align: center;
+font-size: 12px;
+line-height: 1.9;
+text-align: center;
 }
 
 /* ================================
-   FOOTER
+  FOOTER
 ================================== */
 
 .footer {
-  padding: 32px 20px 40px;
-  border-top: 1px solid rgba(0, 0, 0, 0.06);
-  font-size: 10px;
-  background:
-    radial-gradient(circle at 50% 0, rgba(51, 140, 135, 0.1), transparent 55%),
-    #f5f2f0;
+padding: 32px 20px 40px;
+border-top: 1px solid rgba(0, 0, 0, 0.06);
+font-size: 10px;
+background:
+radial-gradient(circle at 50% 0, rgba(51, 140, 135, 0.1), transparent 55%),
+#f5f2f0;
 }
 
 .footer-band {
-  font-size: 10px;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  text-align: center;
-  margin-bottom: 16px;
+font-size: 10px;
+letter-spacing: 0.24em;
+text-transform: uppercase;
+text-align: center;
+margin-bottom: 16px;
 }
 
 .footer-band span {
-  margin: 0 6px;
+margin: 0 6px;
 }
 
 .footer-logo {
-  font-size: 11px;
-  font-weight: 700;
-  margin-bottom: 8px;
+font-size: 11px;
+font-weight: 700;
+margin-bottom: 8px;
 }
 
 .footer-info {
-  color: var(--color-muted);
-  line-height: 1.7;
-  margin-bottom: 10px;
+color: var(--color-muted);
+line-height: 1.7;
+margin-bottom: 10px;
 }
 
 .footer-copy {
-  color: var(--color-muted);
-  opacity: 0.75;
+color: var(--color-muted);
+opacity: 0.75;
 }
 
 /* ================================
-   Animations
+  Animations
 ================================== */
 
 @keyframes float {
-  0% {
-    transform: translateY(0) translateX(0);
-  }
-  50% {
-    transform: translateY(-8px) translateX(4px);
-  }
-  100% {
-    transform: translateY(0) translateX(0);
-  }
+0% {
+transform: translateY(0) translateX(0);
+}
+50% {
+transform: translateY(-8px) translateX(4px);
+}
+100% {
+transform: translateY(0) translateX(0);
+}
 }
 
 /* ================================
-   Responsive – mobile first
+  Responsive – mobile first
 ================================== */
 
 @media (max-width: 599px) {
-  .section {
-    padding: 48px 16px;
-  }
-  .we-artist {
-    padding: 48px 16px 56px;
-  }
-  .section-title {
-    font-size: 14px;
-    letter-spacing: 0.2em;
-  }
-  .work-grid {
-    grid-template-columns: 1fr;
-  }
-  .artist-grid {
-    grid-template-columns: 1fr;
-  }
-  .header {
-    padding: 12px 12px;
-  }
-  .header-logo {
-    font-size: 9px;
-    letter-spacing: 0.16em;
-  }
-  .footer {
-    padding: 28px 16px 36px;
-  }
+.section {
+padding: 48px 16px;
+}
+.we-artist {
+padding: 48px 16px 56px;
+}
+.section-title {
+font-size: 14px;
+letter-spacing: 0.2em;
+}
+.work-grid {
+grid-template-columns: 1fr;
+}
+.artist-grid {
+grid-template-columns: 1fr;
+}
+.header {
+padding: 12px 12px;
+}
+.header-logo {
+font-size: 9px;
+letter-spacing: 0.16em;
+}
+.footer {
+padding: 28px 16px 36px;
+}
 }
 
 @media (min-width: 768px) {
-  .section {
-    padding: 72px 40px;
-  }
-  .we-artist {
-    padding: 80px 40px 90px;
-  }
+.section {
+padding: 72px 40px;
+}
+.we-artist {
+padding: 80px 40px 90px;
+}
 }
 
 @media (min-width: 1024px) {
-  .header {
-    padding: 16px 40px;
-  }
-  .work-grid {
-    gap: 20px;
-  }
-  .artist-grid {
-    gap: 20px;
-  }
-  .footer {
-    padding: 40px 40px 50px;
-  }
+.header {
+padding: 16px 40px;
+}
+.work-grid {
+gap: 20px;
+}
+.artist-grid {
+gap: 20px;
+}
+.footer {
+padding: 40px 40px 50px;
+}
 }
 
 /* ================================
-   Header scroll state
+  Header scroll state
 ================================== */
 
 .header--scrolled {
-  background-color: rgba(246, 243, 240, 0.98);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.14);
-  border-bottom-color: rgba(0, 0, 0, 0.08);
+background-color: rgba(246, 243, 240, 0.98);
+box-shadow: 0 8px 16px rgba(0, 0, 0, 0.14);
+border-bottom-color: rgba(0, 0, 0, 0.08);
 }
 
 /* ================================
-   Fade-in-up animation
+  Fade-in-up animation
 ================================== */
 
 .fade-in-up {
-  opacity: 0;
-  transform: translateY(12px);
-  transition:
-    opacity 0.55s ease-out,
-    transform 0.55s ease-out;
+opacity: 0;
+transform: translateY(12px);
+transition:
+opacity 0.55s ease-out,
+transform 0.55s ease-out;
 }
 
 .fade-in-up.is-visible {
-  opacity: 1;
-  transform: translateY(0);
+opacity: 1;
+transform: translateY(0);
 }
 
 /* ================================
-   Dark theme toggle
+  Dark theme toggle
 ================================== */
 
-/* 이상한 토글 버튼 삭제 처리 */
-button#theme-toggle, .theme-btn-weird { 
-    display: none !important; 
+.theme-toggle {
+position: fixed;
+right: 18px;
+bottom: 18px;
+z-index: 30;
+border-radius: 999px;
+border: 1px solid rgba(0, 0, 0, 0.18);
+background-color: rgba(246, 243, 240, 0.9);
+backdrop-filter: blur(10px);
+padding: 6px 12px 6px 14px;
+display: inline-flex;
+align-items: center;
+gap: 8px;
+font-size: 10px;
+letter-spacing: 0.12em;
+text-transform: uppercase;
+cursor: pointer;
+color: #333;
+box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
+transition: background-color 0.35s ease-out, color 0.35s ease-out, box-shadow 0.35s ease-out, transform 0.32s ease-out;
+}
+
+.theme-toggle__label {
+opacity: 0.75;
+}
+
+.theme-toggle__knob {
+width: 18px;
+height: 18px;
+border-radius: 999px;
+border: 1px solid rgba(0, 0, 0, 0.28);
+background: radial-gradient(circle at 30% 20%, #fff, #ffe4c9);
+box-shadow: 0 0 8px rgba(255, 131, 7, 0.45);
+transition: transform 0.35s ease-out, box-shadow 0.35s ease-out, border-color 0.35s ease-out;
+}
+
+.theme-toggle:hover {
+transform: translateY(-2px);
+box-shadow: 0 12px 24px rgba(0, 0, 0, 0.26);
+}
+
+.theme-toggle--on {
+background-color: rgba(20, 20, 24, 0.9);
+color: #f5f5f5;
+border-color: rgba(255, 255, 255, 0.2);
+}
+
+.theme-toggle--on .theme-toggle__knob {
+transform: translateX(2px);
+border-color: rgba(255, 255, 255, 0.6);
+box-shadow: 0 0 10px rgba(140, 50, 56, 0.7);
 }
 
 /* ================================
-   Dark theme
+  Dark theme
 ================================== */
 
 body.theme-dark {
-  background-color: #17191c;
+background-color: #17191c;
 }
 
 body.theme-dark .work-more-btn,
 body.theme-dark .work-more button,
 body.theme-dark .work-more a {
-  color: #ffffff;
-  border-color: rgba(255, 255, 255, 0.9);
-  background: transparent;
+color: #ffffff;
+border-color: rgba(255, 255, 255, 0.9);
+background: transparent;
 }
 
 body.theme-dark .work-more-btn:hover,
 body.theme-dark .work-more button:hover,
 body.theme-dark .work-more a:hover {
-  background: rgba(255, 255, 255, 0.14);
-  color: #ffffff;
-  border-color: #ffffff;
+background: rgba(255, 255, 255, 0.14);
+color: #ffffff;
+border-color: #ffffff;
 }
 
 body.theme-dark .page {
-  background:
-    radial-gradient(circle at 0 0, rgba(51, 140, 135, 0.22), transparent 55%),
-    radial-gradient(circle at 100% 100%, rgba(140, 50, 56, 0.22), transparent 55%),
-    #111317;
-  color: #f5f5f5;
+background:
+radial-gradient(circle at 0 0, rgba(51, 140, 135, 0.22), transparent 55%),
+radial-gradient(circle at 100% 100%, rgba(140, 50, 56, 0.22), transparent 55%),
+#111317;
+color: #f5f5f5;
 }
 
 body.theme-dark .header {
-  background-color: rgba(17, 19, 23, 0.92);
-  border-bottom-color: rgba(255, 255, 255, 0.06);
+background-color: rgba(17, 19, 23, 0.92);
+border-bottom-color: rgba(255, 255, 255, 0.06);
 }
 
 body.theme-dark .header--scrolled {
-  background-color: rgba(17, 19, 23, 0.98);
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.7);
+background-color: rgba(17, 19, 23, 0.98);
+box-shadow: 0 8px 18px rgba(0, 0, 0, 0.7);
 }
 
 body.theme-dark .hero {
-  position: relative;
+position: relative;
 }
 
 body.theme-dark .hero::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: radial-gradient(circle at 30% 0%, rgba(0, 0, 0, 0.35), transparent 55%);
-  mix-blend-mode: multiply;
-  opacity: 0.75;
+content: "";
+position: absolute;
+inset: 0;
+pointer-events: none;
+background: radial-gradient(circle at 30% 0%, rgba(0, 0, 0, 0.35), transparent 55%);
+mix-blend-mode: multiply;
+opacity: 0.75;
 }
 
 body.theme-dark .hero-copy-top,
 body.theme-dark .hero-copy-bottom {
-  color: #fdfdfd;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.75), 0 0 18px rgba(0, 0, 0, 0.6);
+color: #fdfdfd;
+text-shadow: 0 2px 8px rgba(0, 0, 0, 0.75), 0 0 18px rgba(0, 0, 0, 0.6);
 }
 
 body.theme-dark .hero-italic {
-  text-decoration-color: rgba(255, 255, 255, 0.9);
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.75), 0 0 18px rgba(0, 0, 0, 0.6);
+text-decoration-color: rgba(255, 255, 255, 0.9);
+text-shadow: 0 2px 8px rgba(0, 0, 0, 0.75), 0 0 18px rgba(0, 0, 0, 0.6);
 }
 
-/* 다크모드에서도 .we-artist 섹션은 딥블루 유지 */
 body.theme-dark .we-artist {
-  background-color: #1c3a5a;
+background: linear-gradient(135deg, rgba(51, 140, 135, 0.95), rgba(22, 78, 71, 0.98));
 }
 
 body.theme-dark .section--work,
 body.theme-dark .section--artist,
 body.theme-dark .section--news,
 body.theme-dark .section--contact {
-  background: #14161a;
+background: #14161a;
 }
 
 body.theme-dark .work-card {
-  background-color: #191d23;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
+background-color: #191d23;
+box-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
 }
 
 body.theme-dark .footer {
-  background: #101217;
-  border-top-color: rgba(255, 255, 255, 0.06);
+background: #101217;
+border-top-color: rgba(255, 255, 255, 0.06);
 }
 
 body.theme-dark .footer-info,
@@ -1074,228 +1016,74 @@ body.theme-dark .footer-copy,
 body.theme-dark .news-date,
 body.theme-dark .artist-role,
 body.theme-dark .work-meta {
-  color: rgba(220, 220, 220, 0.75);
+color: rgba(220, 220, 220, 0.75);
 }
 
 body.theme-dark .news-item:hover {
-  background-color: rgba(51, 140, 135, 0.28);
+background-color: rgba(51, 140, 135, 0.28);
 }
 
 /* ================================
-   Grain Canvases
+  Grain Canvases
 ================================== */
 
 #grain-static {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-  pointer-events: none;
-  mix-blend-mode: overlay;
-  opacity: 0.45;
+position: fixed;
+inset: 0;
+width: 100%;
+height: 100%;
+z-index: 2;
+pointer-events: none;
+mix-blend-mode: overlay;
+opacity: 0.45;
 }
 
 #grain-scroll {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 3;
-  pointer-events: none;
-  mix-blend-mode: overlay;
-  opacity: 0.4;
+position: fixed;
+inset: 0;
+width: 100%;
+height: 100%;
+z-index: 3;
+pointer-events: none;
+mix-blend-mode: overlay;
+opacity: 0.4;
 }
 
 /* ================================
-   HERO TYPO
+  HERO TYPO
 ================================== */
 
 .hero-copy-top {
-  font-size: 28px;
+font-size: 28px;
 }
 
 .hero-copy-bottom {
-  font-size: 18px;
+font-size: 18px;
 }
 
 @media (min-width: 768px) {
-  .hero-copy-top {
-    font-size: 46px;
-  }
-  .hero-copy-bottom {
-    font-size: 28px;
-  }
+.hero-copy-top {
+font-size: 46px;
+}
+.hero-copy-bottom {
+font-size: 28px;
+}
 }
 
 /* ========================================================
-   AIiNG 카드 썸네일 이미지
-   ======================================================== */
+   ✅ [중요] AIiNG 카드 썸네일 이미지 설정
+   - 이미지를 준비하신 후, 아래 url(...) 안에 경로를 입력하세요.
+   ✅ [수정됨] AIiNG 카드 썸네일 이미지
+   - 파일명: aiing-project.jpg
+  ======================================================== */
 .work-thumb--aiing {
+  /* 예: background-image: url("./assets/images/aiing-project.jpg"); */
+  /* 👇 파일 경로가 정확해야 합니다! */
   background-image: url("./assets/images/aiing-project.jpg"); 
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-color: #eee;
+  
+background-size: cover;
+background-position: center;
+background-repeat: no-repeat;
+   background-image: url("./assets/images/aiing-project.jpg"); */
+  background-color: #eee; /* 로딩 실패 시 회색 배경 표시 */
 }
-/* =========================================
-   RESET & VARIABLES
-   ========================================= */
-:root {
-    --color-bg-deep: #050a14;
-    --color-accent-blue: #0044ff;
-    --color-text-white: #ffffff;
-    --color-text-gray: #a0aab8;
-    --font-main: "Noto Sans KR", sans-serif;
-    --font-display: "Gothic A1", sans-serif;
-}
-
-* { margin: 0; padding: 0; box-sizing: border-box; }
-html, body { width: 100%; height: 100%; background-color: var(--color-bg-deep); color: var(--color-text-white); font-family: var(--font-main); overflow-x: hidden; }
-
-a { text-decoration: none; color: inherit; }
-ul { list-style: none; }
-
-/* =========================================
-   GRAIN EFFECT (Background)
-   ========================================= */
-#grain-canvas {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    z-index: 9999; pointer-events: none; opacity: 0.05; mix-blend-mode: overlay;
-}
-
-.page { position: relative; z-index: 1; }
-
-/* =========================================
-   HEADER
-   ========================================= */
-.header {
-    position: fixed; top: 0; width: 100%; z-index: 100;
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 20px 40px;
-    background: rgba(5, 10, 20, 0.8);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-}
-
-.header-left nav { display: flex; gap: 20px; font-size: 11px; letter-spacing: 0.1em; color: var(--color-text-gray); }
-.header-logo { font-family: var(--font-display); font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; font-size: 14px; }
-.header-right { font-size: 11px; color: var(--color-text-gray); }
-.lang-btn { background: none; border: none; color: inherit; cursor: pointer; font-family: inherit; }
-.lang-btn.active { color: white; font-weight: 700; }
-
-/* =========================================
-   HERO SECTION
-   ========================================= */
-.hero { height: 60vh; display: flex; align-items: center; justify-content: center; text-align: center; }
-.hero-copy-top { font-size: 40px; line-height: 1.2; font-weight: 300; margin-bottom: 20px; }
-.hero-italic { font-family: var(--font-display); font-style: italic; color: var(--color-text-gray); }
-.hero-copy-bottom { font-size: 14px; color: var(--color-text-gray); letter-spacing: 0.05em; }
-
-/* =========================================
-   [CORE] FRACTAL LENS SECTION
-   ========================================= */
-.we-artist {
-    position: relative;
-    width: 100%;
-    padding: 160px 0;
-    overflow: hidden;
-    background-color: #061428; /* Deep Blue Base */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-/* 1. 유리 기둥 패턴 (날카로운 직선) */
-.glass-ribs-layer {
-    position: absolute; top: -10%; left: -10%; width: 120%; height: 120%;
-    z-index: 1;
-    pointer-events: none;
-    
-    /* ★ SVG 필터 연결: 여기가 핵심입니다 ★ */
-    filter: url(#lens-distortion-filter);
-    
-    /* 세로 스트라이프 패턴 생성 (Fluted Glass) */
-    background: repeating-linear-gradient(
-        90deg,
-        rgba(255, 255, 255, 0) 0px,
-        rgba(255, 255, 255, 0) 4px,             /* 투명 공간 */
-        rgba(255, 255, 255, 0.02) 5px,          /* 어두운 그림자 */
-        rgba(255, 255, 255, 0.1) 10px,          /* 하이라이트 (빛) */
-        rgba(255, 255, 255, 0.02) 15px,         /* 어두운 그림자 */
-        rgba(255, 255, 255, 0) 16px,            /* 투명 공간 */
-        rgba(0, 0, 0, 0.8) 18px                 /* 깊은 블랙 라인 */
-    );
-    opacity: 0.6;
-    mix-blend-mode: overlay;
-    background-size: 100% 100%;
-}
-
-/* 2. 렌즈 글로우 (마우스 따라다니는 푸른 빛) */
-.lens-glow-layer {
-    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    z-index: 0;
-    pointer-events: none;
-    /* JS에서 --mouse-x, --mouse-y 변수 주입 */
-    background: radial-gradient(
-        circle 400px at var(--mouse-x, 50%) var(--mouse-y, 50%),
-        rgba(0, 80, 255, 0.3),  /* Electric Blue Center */
-        transparent 60%
-    );
-    opacity: 0; /* 처음엔 숨김 */
-    transition: opacity 0.5s ease;
-    mix-blend-mode: color-dodge;
-}
-
-.we-artist:hover .lens-glow-layer { opacity: 1; }
-
-/* 3. 컨텐츠 스타일링 */
-.we-artist-inner {
-    position: relative; z-index: 10;
-    text-align: center; max-width: 800px;
-    color: white;
-}
-
-.we-artist-mark { color: #64ffda; font-size: 24px; margin-bottom: 16px; text-shadow: 0 0 15px rgba(100,255,218,0.5); }
-.we-artist-title { font-family: var(--font-display); font-size: 32px; letter-spacing: 0.3em; margin-bottom: 20px; font-weight: 700; }
-.we-artist-sub { font-size: 14px; line-height: 1.6; color: #cbd5e1; margin-bottom: 50px; }
-
-/* 원형 카드 */
-.we-artist-circles { display: flex; justify-content: center; gap: 30px; margin-bottom: 50px; }
-.we-artist-circle {
-    width: 130px; height: 130px;
-    border-radius: 50%;
-    border: 1px solid rgba(255,255,255,0.15);
-    background: rgba(255,255,255,0.03);
-    backdrop-filter: blur(5px);
-    display: flex; flex-direction: column; justify-content: center; align-items: center;
-    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-}
-.circle-title { font-size: 12px; font-weight: 700; margin-bottom: 4px; letter-spacing: 0.05em; }
-.circle-desc { font-size: 10px; color: var(--color-text-gray); }
-
-.we-artist-circle:hover {
-    background: rgba(0, 68, 255, 0.2);
-    border-color: rgba(100, 200, 255, 0.5);
-    transform: scale(1.05);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-}
-
-.we-artist-desc { font-size: 13px; line-height: 1.8; color: var(--color-text-gray); }
-
-/* =========================================
-   WORKS & FOOTER (Simple Layout)
-   ========================================= */
-.section--work { padding: 100px 40px; background-color: #0b111a; }
-.section-title { text-align: center; font-size: 18px; letter-spacing: 0.2em; margin-bottom: 60px; color: var(--color-text-gray); }
-.work-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; max-width: 1200px; margin: 0 auto; }
-.work-card { background: #111823; border-radius: 16px; overflow: hidden; transition: transform 0.3s; }
-.work-card:hover { transform: translateY(-5px); }
-.work-thumb { height: 240px; background-color: #1a2332; }
-.work-content { padding: 24px; }
-.work-tag { font-size: 10px; color: var(--color-accent-blue); font-weight: 700; margin-bottom: 8px; }
-.work-title { font-size: 18px; margin-bottom: 8px; }
-.work-meta { font-size: 12px; color: var(--color-text-gray); }
-
-.footer { padding: 60px 0; text-align: center; font-size: 10px; color: #4b5563; border-top: 1px solid rgba(255,255,255,0.05); }
-.footer-band span { margin: 0 10px; letter-spacing: 0.2em; }

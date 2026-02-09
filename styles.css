@@ -423,15 +423,21 @@ body.theme-dark .lang-btn.active {
 }
 
 /* ==========================================================
-   [수정됨] ABOUT 섹션 - 유리 왜곡(Fluted Glass) 효과 통합
+   [재구현] FRACTAL HAZE (Deep Blue & Sharp Ribs)
+   - 레퍼런스 이미지의 날카로운 유리 질감과 깊은 색감 구현
 ========================================================== */
 
-/* 1. 섹션 기본 설정 (딥블루 배경 #1c3a5a) */
+/* 1. 섹션 베이스: 칠흑 같은 어둠 + 블루 글로우 */
 .we-artist {
   position: relative;
-  background-color: #1c3a5a; /* 요청하신 진한 파란색 */
-  color: #fdfdfd;
-  padding: 100px 20px;
+  /* 배경: 아주 깊은 다크 블루 ~ 블랙 */
+  background: radial-gradient(
+    circle at 50% 30%, 
+    #0a1f3d 0%,    /* 중앙: 딥 블루 */
+    #000000 60%    /* 외곽: 완전한 블랙 */
+  );
+  color: #ffffff;
+  padding: 120px 20px;
   overflow: hidden;
   z-index: 1;
 }
@@ -441,117 +447,161 @@ body.theme-dark .lang-btn.active {
   max-width: 720px;
   margin: 0 auto;
   text-align: center;
-  z-index: 2; /* 배경 유리효과 위에 배치 */
+  z-index: 10; /* 유리 효과보다 무조건 위에 */
 }
 
-/* 2. [NEW] 세로 유리 줄무늬 (질감) */
+/* 2. [핵심] 유리 기둥 (Ribs) 레이어
+   - 날카로운 수직 스트라이프를 생성하여 유리 기둥 형상화 */
 .glass-ribs {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
+  z-index: 2;
+  opacity: 0.8;
+  mix-blend-mode: overlay; /* 배경색과 섞여서 깊이감 생성 */
+  
+  /* 반복되는 선형 그라데이션으로 입체적인 유리 기둥 표현 */
   background: repeating-linear-gradient(
     90deg,
-    rgba(255, 255, 255, 0.08) 0px,
-    rgba(255, 255, 255, 0.08) 1px,
-    transparent 1px,
-    transparent 12px,
-    rgba(0, 0, 0, 0.3) 13px,
-    rgba(0, 0, 0, 0.3) 14px,
-    transparent 14px,
-    transparent 24px
+    transparent 0px,
+    transparent 2px,
+    rgba(255, 255, 255, 0.05) 2px,  /* 기둥의 어두운 면 */
+    rgba(255, 255, 255, 0.3) 15px,  /* 기둥의 가장 밝은 하이라이트 (중앙) */
+    rgba(255, 255, 255, 0.05) 28px, /* 기둥의 어두운 면 */
+    transparent 28px,
+    transparent 30px,               /* 기둥 사이의 틈 (블랙) */
+    rgba(0, 0, 0, 0.8) 31px,        /* 깊은 그림자 */
+    rgba(0, 0, 0, 0.8) 32px
   );
-  /* SVG 필터(glass-distortion)와 연결 */
-  filter: url(#glass-distortion) blur(0.5px);
-  transform: scale(1.05);
   pointer-events: none;
-  mix-blend-mode: overlay;
-  z-index: 0;
 }
 
-/* 3. [NEW] 유리 하이라이트 (조명 효과) */
+/* 3. [핵심] 프랙탈 헤이즈 (Fractal Haze)
+   - 유리 뒤에서 은은하게 일렁이는 푸른 빛의 왜곡 */
 .glass-highlight {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  z-index: 1;
+  
+  /* 레퍼런스의 일렉트릭 블루 빛 */
+  background: radial-gradient(
+    circle at center,
+    rgba(0, 100, 255, 0.3), /* 강렬한 블루 */
+    transparent 60%
+  );
+  
+  /* 빛이 천천히 움직이며 유리 뒤에서 굴절되는 느낌 */
+  animation: hazeMove 15s infinite alternate ease-in-out;
+  pointer-events: none;
+}
+
+@keyframes hazeMove {
+  0% { transform: translate(0, 0) scale(1); opacity: 0.6; }
+  100% { transform: translate(-5%, 5%) scale(1.2); opacity: 0.9; }
+}
+
+/* 4. 마우스 인터랙션 (선택사항)
+   - 마우스가 올라가면 빛이 더 강해짐 */
+.glass-ribs::after {
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
+  /* 마우스 위치에 따라 스포트라이트 (JS 연동 필요, 없으면 중앙 고정) */
   background: radial-gradient(
-    circle 400px at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    circle 600px at var(--mouse-x, 50%) var(--mouse-y, 50%),
     rgba(255, 255, 255, 0.15),
-    transparent 80%
+    transparent 70%
   );
-  mix-blend-mode: screen;
-  pointer-events: none;
-  transition: opacity 0.3s;
-  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.5s;
+  mix-blend-mode: color-dodge; /* 빛을 더 쨍하게 만듦 */
 }
 
+.we-artist:hover .glass-ribs::after {
+  opacity: 1;
+}
+
+
+/* 5. 텍스트 가독성 확보 (배경이 어두워졌으므로) */
 .we-artist-mark {
   font-size: 20px;
   margin-bottom: 12px;
+  color: #64ffda; /* 포인트 컬러 (밝은 민트/블루) */
+  text-shadow: 0 0 10px rgba(100, 255, 218, 0.5);
 }
 
 .we-artist-title {
-  font-size: 22px;
-  letter-spacing: 0.32em;
+  font-size: 24px;
+  letter-spacing: 0.35em;
   text-transform: uppercase;
   margin-bottom: 8px;
-  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  font-weight: 700;
+  text-shadow: 0 0 20px rgba(0,0,0,0.8);
 }
 
 .we-artist-sub {
-  font-size: 12px;
+  font-size: 13px;
   opacity: 0.9;
-  margin-bottom: 32px;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  margin-bottom: 40px;
+  color: #ccd6f6;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.8);
 }
 
 .we-artist-circles {
   display: flex;
   justify-content: center;
-  gap: 16px;
+  gap: 20px;
   flex-wrap: wrap;
-  margin-bottom: 32px;
+  margin-bottom: 40px;
 }
 
 .we-artist-circle {
-  width: 110px;
-  height: 110px;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  /* 유리볼 느낌 강화 */
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(4px); /* 뒤의 기둥이 흐릿하게 비침 */
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.05);
+  
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: 11px;
-  background-color: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(5px);
-  transition: transform 0.35s ease-out,
-    box-shadow 0.35s ease-out,
-    background-color 0.35s ease-out;
+  font-size: 12px;
+  transition: all 0.3s ease;
 }
 
 .we-artist-circle span {
-  margin-top: 4px;
+  margin-top: 6px;
   font-size: 10px;
-  opacity: 0.8;
+  color: #8892b0;
 }
 
 .we-artist-circle:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 22px rgba(0, 0, 0, 0.18);
-  background-color: rgba(255, 255, 255, 0.15);
+  background: rgba(0, 100, 255, 0.15); /* 호버 시 블루 틴트 */
+  border-color: rgba(100, 200, 255, 0.6);
+  box-shadow: 0 0 30px rgba(0, 100, 255, 0.3);
+  transform: translateY(-5px);
 }
 
 .we-artist-desc {
-  font-size: 12px;
+  font-size: 13px;
   line-height: 1.8;
-  opacity: 0.95;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  color: #a8b2d1;
+  text-shadow: 0 2px 4px rgba(0,0,0,1);
 }
 
+/* 기존 HTML에 있던 SVG 필터는 이제 필요 없으므로 무시되거나 삭제해도 됨 */
 /* ================================
    WORKS
 ================================== */

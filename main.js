@@ -4,8 +4,9 @@
      ============================================================ */
   const translations = {
     ko: {
-      "hero-main": `복잡함을 비워낸 투명함, 일상을 감싸는 편안함.<br>그 경계에서 디지털 프로덕트를 설계합니다.`, // <-- 이 부분이 수정되었습니다.
+      "hero-main": `복잡함을 비워낸 투명함, 일상을 감싸는 편안함.<br>그 경계에서 디지털 프로덕트를 설계합니다.`,
       "hero-sub": "Product & UI/UX Designer – Ambient.lee",
+      "hero-hint": "* 화면을 터치하거나 마우스를 움직여보세요.", /* <-- 추가된 한국어 힌트 문구 */
       "about-sub": `사용자의 맥락을 깊게 이해하고, 무드를 잃지 않는 정교한 화면을 만드는<br>Product · UI/UX Designer Ambient.lee 입니다.`,
       "about-desc": `사용자 리서치와 데이터 기반 접근을 통해 문제를 정의하고,<br>인터랙션과 무드를 결합한 경험을 설계합니다.<br>‘오래 머물고 싶은 화면’을 만드는 것이 목표입니다.`,
       "menu-about": "ABOUT",
@@ -17,6 +18,7 @@
     en: {
       "hero-main": `I design <span class="hero-italic">ambient</span><br>& clear digital products.`,
       "hero-sub": "Product & UI/UX Designer – Ambient.lee",
+      "hero-hint": "* Move around or touch the screen.", /* <-- 추가된 영어 힌트 문구 */
       "about-sub": `I am Ambient.lee, a Product & UI/UX Designer<br>who deeply understands context and crafts delicate interfaces.`,
       "about-desc": `I define problems through user research and data-driven approaches,<br>designing experiences that combine interaction and mood.<br>My goal is to create screens where users want to stay.`,
       "menu-about": "ABOUT",
@@ -140,11 +142,10 @@
   }
 
   /* ============================================================
-     5. 테마 스위치 (Light/Dark) - 수정됨
+     5. 테마 스위치 (Light/Dark)
      ============================================================ */
   function initThemeToggle() {
     const body = document.body;
-    // HTML에 직접 추가한 버튼을 찾습니다.
     const toggle = document.querySelector(".theme-toggle");
     
     if (!toggle) return;
@@ -153,7 +154,6 @@
     toggle.addEventListener("click", () => {
       isDark = !isDark;
       
-      // 부드러운 전환을 위한 클래스
       body.classList.add("theme-transition");
       setTimeout(() => body.classList.remove("theme-transition"), 350);
 
@@ -299,7 +299,7 @@
       bctx.clearRect(0, 0, w, h);
       bctx.beginPath();
       bctx.arc(ballX, ballY, r, 0, Math.PI * 2);
-      bctx.fillStyle = "#214769"; // 요청하신 단색
+      bctx.fillStyle = "#214769";
       bctx.fill();
     }
 

@@ -696,3 +696,23 @@ html[lang="ko"] .hero-copy-top {
     font-size: 10px;
   }
 }
+/* ================================
+   다크모드: 각 섹션 고정 배경 투명화 처리
+================================== */
+body.theme-dark .section--work,
+body.theme-dark .section--artist,
+body.theme-dark .section--news,
+body.theme-dark .section--contact {
+  background: transparent; /* 기존의 밝은 베이지색 배경을 투명하게 만들어 어두운 배경이 보이도록 함 */
+}
+
+/* 추가 디테일: 고스트 버튼(MORE VIEW) 테두리와 글자색 다크모드 최적화 */
+body.theme-dark .ghost-button {
+  border-color: rgba(255, 255, 255, 0.3);
+  color: #f5f5f5;
+}
+
+body.theme-dark .ghost-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}

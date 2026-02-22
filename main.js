@@ -4,7 +4,7 @@
      ============================================================ */
   const translations = {
     ko: {
-      "hero-main": `I design <span class="hero-italic">ambient</span><br>& clear digital products.`,
+      "hero-main": `복잡함을 비워낸 투명함, 일상을 감싸는 편안함.<br>그 경계에서 디지털 프로덕트를 설계합니다.`, // <-- 이 부분이 수정되었습니다.
       "hero-sub": "Product & UI/UX Designer – Ambient.lee",
       "about-sub": `사용자의 맥락을 깊게 이해하고, 무드를 잃지 않는 정교한 화면을 만드는<br>Product · UI/UX Designer Ambient.lee 입니다.`,
       "about-desc": `사용자 리서치와 데이터 기반 접근을 통해 문제를 정의하고,<br>인터랙션과 무드를 결합한 경험을 설계합니다.<br>‘오래 머물고 싶은 화면’을 만드는 것이 목표입니다.`,

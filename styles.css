@@ -654,3 +654,19 @@ body.theme-dark .works-notice {
     line-height: 1.4;
   }
 }
+/* ================================
+   한국어 모드 전용 타이포그래피 최적화
+================================== */
+html[lang="ko"] .hero-copy-top {
+  font-size: 22px; /* 모바일: 기존 28px -> 22px로 축소 */
+  line-height: 1.6; /* 행간을 넓혀서 여유롭고 숨통 트이게 */
+  font-weight: 300; /* 글씨 두께를 살짝 얇게 하여 투명한 무드 강조 */
+  letter-spacing: -0.02em; /* 한글에 맞게 자간 살짝 좁힘 */
+  word-break: keep-all; /* 단어 단위로 깔끔하게 줄바꿈 */
+}
+
+@media (min-width: 768px) {
+  html[lang="ko"] .hero-copy-top {
+    font-size: 34px; /* 데스크탑: 기존 46px -> 34px로 축소 */
+  }
+}

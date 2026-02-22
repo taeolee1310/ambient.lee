@@ -670,3 +670,29 @@ html[lang="ko"] .hero-copy-top {
     font-size: 34px; /* 데스크탑: 기존 46px -> 34px로 축소 */
   }
 }
+/* ================================
+   상호작용 힌트 마이크로 카피
+================================== */
+.hero-interaction-hint {
+  margin-top: 32px;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  color: var(--color-muted); /* 기존 세팅된 옅은 회색 활용 */
+  word-break: keep-all;
+  animation: gentle-pulse 3s infinite ease-in-out; /* 숨쉬는 듯한 애니메이션 */
+}
+
+/* 펄스 애니메이션 설정 */
+@keyframes gentle-pulse {
+  0% { opacity: 0.3; }
+  50% { opacity: 0.8; }
+  100% { opacity: 0.3; }
+}
+
+/* 모바일 화면 조정 */
+@media (max-width: 768px) {
+  .hero-interaction-hint {
+    margin-top: 24px;
+    font-size: 10px;
+  }
+}

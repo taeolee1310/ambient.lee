@@ -18,7 +18,7 @@
     en: {
       "hero-main": `I design <span class="hero-italic">ambient</span><br>& clear digital products.`,
       "hero-sub": "Product & UI/UX Designer – Ambient.lee",
-      "hero-hint": "* Move around or touch the screen.", /* <-- 추가된 영어 힌트 문구 */
+      "hero-hint": "* Move around or touch the screen to move the circle.", /* <-- 추가된 영어 힌트 문구 */
       "about-sub": `I am Ambient.lee, a Product & UI/UX Designer<br>who deeply understands context and crafts delicate interfaces.`,
       "about-desc": `I define problems through user research and data-driven approaches,<br>designing experiences that combine interaction and mood.<br>My goal is to create screens where users want to stay.`,
       "menu-about": "ABOUT",
